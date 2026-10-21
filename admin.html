@@ -1,74 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-AO">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Mambo Vazoux</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#fff;font-family:Arial;padding:20px}
-h2{color:#ff0040;text-align:center;margin-bottom:20px}
-.box{background:#1a1a1a;padding:20px;border-radius:12px;max-width:600px;margin:0 auto;border:1px solid #333}
-input,textarea{width:100%;padding:12px;margin:8px 0;background:#222;border:1px solid #444;color:#fff;border-radius:8px;font-size:14px}
-textarea{min-height:80px}
-button{background:#ff0040;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;width:100%;font-weight:bold;font-size:16px;margin-top:10px}
-button:hover{background:#cc0033}
-#status{text-align:center;margin:10px 0;color:#0f0;font-weight:bold}
-.card{background:#222;padding:12px;margin:10px 0;border-radius:8px;border-left:3px solid #ff0040}
-</style>
-</head>
-<body>
-<h2>ADMIN MAMBO VAZOUX</h2>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ADMIN</title>
+<style>body{background:#000;color:#fff;font-family:Arial;padding:15px}.box{background:#111;padding:15px;border-radius:10px}input,textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;background:#222;color:#fff}button{width:100%;padding:12px;background:#ff0040;border:none;border-radius:8px;color:#fff;font-weight:bold}</style>
+</head><body>
+<h2 style="color:#ff0040;text-align:center">ADMIN MAMBO VAZOUX</h2>
 <div class="box">
-<input id="titulo" placeholder="Título do vídeo - ex: Morena de Luanda">
-<input id="thumb" placeholder="Link da imagem (thumbnail) - ex: https://...jpg">
-<input id="video" placeholder="Link do vídeo - ex: https://...mp4">
-<textarea id="desc" placeholder="Descrição do vídeo"></textarea>
+<input id="t" placeholder="Título do vídeo - ex: Morena de Luanda">
+<input id="thumb" placeholder="Link da imagem (thumbnail) - ex: https://picsum.photos/300/170">
+<input id="video" placeholder="Link do vídeo - ex: https://...mp4 ou https://dood...">
+<textarea id="desc" placeholder="Descrição do video"></textarea>
 <button onclick="salvar()">💾 SALVAR VÍDEO</button>
-<div id="status"></div>
+<p id="msg" style="font-size:12px;color:#0f0"></p>
 </div>
-<div class="box" style="margin-top:20px">
-<h3 style="margin-bottom:10px">Vídeos salvos:</h3>
-<div id="lista">Carregando...</div>
-</div>
-
+<div class="box" style="margin-top:10px"><b>Vídeos salvos:</b><div id="lista">Carregando...</div></div>
 <script>
-const SUPABASE_URL = "https://lahrudhqrzhoqccycfwf.supabase.co"
-const SUPABASE_KEY = "sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg"
-const supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-
+const URL="https://uykukakwsdsyfyigbzzs.supabase.co"; const KEY="sb_publishable_FhTK3M2IdoGdmK0gWMT9iQ__7tE6j4Z";
 async function salvar(){
-const titulo = document.getElementById('titulo').value.trim()
-const thumb = document.getElementById('thumb').value.trim()
-const video_url = document.getElementById('video').value.trim()
-const descricao = document.getElementById('desc').value.trim()
-if(!titulo || !video_url){alert('❌ Preenche pelo menos Título e Link do Vídeo');return}
-document.getElementById('status').innerText='⏳ A salvar...'
-const {error} = await supa.from('videos').insert([{titulo,thumb,video_url,descricao}])
-if(error){
-document.getElementById('status').innerText='❌ Erro: '+error.message
-document.getElementById('status').style.color='#f00'
-}else{
-document.getElementById('status').innerText='✅ Salvo com sucesso!'
-document.getElementById('status').style.color='#0f0'
-document.getElementById('titulo').value=''
-document.getElementById('thumb').value=''
-document.getElementById('video').value=''
-document.getElementById('desc').value=''
-load()
+ const title=document.getElementById('t').value; const thumbnail_url=document.getElementById('thumb').value; const video_url=document.getElementById('video').value; const description=document.getElementById('desc').value;
+ if(!title||!video_url) return alert('Título e Link do vídeo obrigatório');
+ document.getElementById('msg').innerText='Salvando...';
+ const r=await fetch(`${URL}/rest/v1/videos`,{method:'POST',headers:{apikey:KEY,Authorization:`Bearer ${KEY}`,'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify({title,thumbnail_url,video_url,description,category:'Angola'})});
+ if(r.ok){document.getElementById('msg').innerText='✅ Vídeo salvo com sucesso!'; load();} else {const e=await r.text(); alert('Erro: '+e)}
 }
-}
-
 async function load(){
-const {data,error} = await supa.from('videos').select('*').order('id',{ascending:false})
-if(error){document.getElementById('lista').innerHTML='Erro: '+error.message;return}
-let html=''
-if(!data || data.length==0) html='<p style="color:#777">Nenhum vídeo ainda</p>'
-else data.forEach(v=>{html+=`<div class="card"><b>${v.titulo}</b><br><small style="color:#aaa">${v.video_url}</small></div>`})
-document.getElementById('lista').innerHTML=html
+ const r=await fetch(`${URL}/rest/v1/videos?select=*&order=created_at.desc`,{headers:{apikey:KEY,Authorization:`Bearer ${KEY}`}});
+ const d=await r.json(); document.getElementById('lista').innerHTML=d.map(v=>`<div style="padding:5px 0;border-bottom:1px solid #222">${v.title} <span style="color:red;cursor:pointer" onclick="del('${v.id}')"> [apagar]</span></div>`).join('')||'Nenhum vídeo ainda';
 }
-load()
+async function del(id){ if(!confirm('Apagar?')) return; await fetch(`${URL}/rest/v1/videos?id=eq.${id}`,{method:'DELETE',headers:{apikey:KEY,Authorization:`Bearer ${KEY}`}}); load(); }
+load();
 </script>
-</body>
-</html>
+</body></html>
