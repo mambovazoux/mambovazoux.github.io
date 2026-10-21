@@ -5,46 +5,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Mambo Vazoux</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>body{font-family:Arial;padding:20px;background:#f5f5f5;max-width:600px;margin:0 auto}input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:6px}button{padding:12px 20px;background:#000;color:#fff;border:none;border-radius:6px;width:100%}#painel{display:none}</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#fff;font-family:Arial;padding:20px}
+h2{color:#ff0040;text-align:center;margin-bottom:20px}
+.box{background:#1a1a1a;padding:20px;border-radius:12px;max-width:600px;margin:0 auto;border:1px solid #333}
+input,textarea{width:100%;padding:12px;margin:8px 0;background:#222;border:1px solid #444;color:#fff;border-radius:8px;font-size:14px}
+textarea{min-height:80px}
+button{background:#ff0040;color:#fff;padding:14px;border:none;border-radius:8px;cursor:pointer;width:100%;font-weight:bold;font-size:16px;margin-top:10px}
+button:hover{background:#cc0033}
+#status{text-align:center;margin:10px 0;color:#0f0;font-weight:bold}
+.card{background:#222;padding:12px;margin:10px 0;border-radius:8px;border-left:3px solid #ff0040}
+</style>
 </head>
 <body>
-<div id="login">
-<h2>Admin Mambo Vazoux</h2>
-<input type="password" id="senha" placeholder="Digite a senha">
-<button onclick="logar()">Entrar</button>
+<h2>ADMIN MAMBO VAZOUX</h2>
+<div class="box">
+<input id="titulo" placeholder="Título do vídeo - ex: Morena de Luanda">
+<input id="thumb" placeholder="Link da imagem (thumbnail) - ex: https://...jpg">
+<input id="video" placeholder="Link do vídeo - ex: https://...mp4">
+<textarea id="desc" placeholder="Descrição do vídeo"></textarea>
+<button onclick="salvar()">💾 SALVAR VÍDEO</button>
+<div id="status"></div>
 </div>
-
-<div id="painel">
-<h2>Adicionar Produto</h2>
-<input id="nome" placeholder="Nome do produto">
-<input id="preco" type="number" placeholder="Preço Kz">
-<input id="imagem" placeholder="Link da imagem">
-<textarea id="desc" placeholder="Descrição"></textarea>
-<button onclick="addProduto()">Salvar Produto</button>
-<p id="msg"></p>
-<!-- ESPAÇO ADS ADMIN - opcional pra você ver como fica -->
-<div style="margin-top:30px;background:#e0e0e0;border:2px dashed #999;height:90px;display:flex;align-items:center;justify-content:center">ESPAÇO ADS ADMIN 728x90</div>
+<div class="box" style="margin-top:20px">
+<h3 style="margin-bottom:10px">Vídeos salvos:</h3>
+<div id="lista">Carregando...</div>
 </div>
 
 <script>
-const SUPABASE_URL = "SUA_URL_AQUI";
-const SUPABASE_KEY = "SUA_KEY_AQUI";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-function logar(){
-  if(document.getElementById('senha').value==="946017659pd"){
-    document.getElementById('login').style.display="none";
-    document.getElementById('painel').style.display="block";
-  } else alert("Senha errada");
+const SUPABASE_URL = "https://lahrudhqrzhoqccycfwf.supabase.co"
+const SUPABASE_KEY = "sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg"
+const supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+async function salvar(){
+const titulo = document.getElementById('titulo').value.trim()
+const thumb = document.getElementById('thumb').value.trim()
+const video_url = document.getElementById('video').value.trim()
+const descricao = document.getElementById('desc').value.trim()
+if(!titulo || !video_url){alert('❌ Preenche pelo menos Título e Link do Vídeo');return}
+document.getElementById('status').innerText='⏳ A salvar...'
+const {error} = await supa.from('videos').insert([{titulo,thumb,video_url,descricao}])
+if(error){
+document.getElementById('status').innerText='❌ Erro: '+error.message
+document.getElementById('status').style.color='#f00'
+}else{
+document.getElementById('status').innerText='✅ Salvo com sucesso!'
+document.getElementById('status').style.color='#0f0'
+document.getElementById('titulo').value=''
+document.getElementById('thumb').value=''
+document.getElementById('video').value=''
+document.getElementById('desc').value=''
+load()
 }
-async function addProduto(){
-  const nome=document.getElementById('nome').value;
-  const preco=document.getElementById('preco').value;
-  const imagem_url=document.getElementById('imagem').value;
-  const descricao=document.getElementById('desc').value;
-  const {error}=await supabaseClient.from('produtos').insert([{nome,preco,imagem_url,descricao}]);
-  if(error){document.getElementById('msg').innerText="Erro: "+error.message}
-  else{document.getElementById('msg').innerText="Produto salvo!";document.getElementById('nome').value="";document.getElementById('preco').value="";document.getElementById('imagem').value="";document.getElementById('desc').value="";}
 }
+
+async function load(){
+const {data,error} = await supa.from('videos').select('*').order('id',{ascending:false})
+if(error){document.getElementById('lista').innerHTML='Erro: '+error.message;return}
+let html=''
+if(!data || data.length==0) html='<p style="color:#777">Nenhum vídeo ainda</p>'
+else data.forEach(v=>{html+=`<div class="card"><b>${v.titulo}</b><br><small style="color:#aaa">${v.video_url}</small></div>`})
+document.getElementById('lista').innerHTML=html
+}
+load()
 </script>
 </body>
 </html>
