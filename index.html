@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Mambo Vazoux</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{background:#111;color:#fff;font-family:Arial;padding:20px}
+input,textarea{width:100%;padding:10px;margin:8px 0;background:#222;border:1px solid #444;color:#fff;border-radius:5px}
+button{background:#ff0040;color:#fff;padding:12px;border:none;border-radius:5px;cursor:pointer;width:100%;font-weight:bold;margin-top:5px}
+.card{background:#1a1a1a;padding:15px;margin:10px 0;border-radius:8px}
+</style>
+</head>
+<body>
+<h2>ADMIN MAMBO VAZOUX</h2>
+<input id="titulo" placeholder="Título do vídeo">
+<input id="thumb" placeholder="Link da thumbnail">
+<input id="video" placeholder="Link do vídeo">
+<textarea id="desc" placeholder="Descrição"></textarea>
+<button onclick="salvar()">SALVAR VÍDEO</button>
+<div id="status"></div>
+<div id="lista"></div>
+<script>
+const SUPABASE_URL = "https://lahrudhqrzhoqccycfwf.supabase.co"
+const SUPABASE_KEY = "sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg"
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+async function salvar(){
+const t=document.getElementById('titulo').value
+const th=document.getElementById('thumb').value
+const v=document.getElementById('video').value
+const d=document.getElementById('desc').value
+if(!t||!v){alert('Falta título e vídeo');return}
+document.getElementById('status').innerText='A salvar...'
+const {error}=await supabaseClient.from('videos').insert([{titulo:t,thumb:th,video_url:v,descricao:d}])
+if(error){document.getElementById('status').innerText='Erro: '+error.message}
+else{document.getElementById('status').innerText='Salvo!';load()}
+}
+async function load(){
+let {data}=await supabaseClient.from('videos').select('*').order('id',{ascending:false})
+let html=''
+data?.forEach(v=>{html+=`<div class="card"><b>${v.titulo}</b><br>${v.video_url}</div>`})
+document.getElementById('lista').innerHTML=html
+}
+load()
+</script>
+</body>
+</html>
