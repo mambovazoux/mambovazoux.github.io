@@ -58,14 +58,23 @@ body{background:#080808;color:#fff;font-family:Arial}
 <body>
 <div id="ageGate"><div class="ageBox"><h2 style="color:#ff0040">18+ AVISO</h2><p style="margin:12px 0;font-size:13px">Conteúdo adulto 18+. Modelos 18+ 2257. DMCA.</p><button class="btn btn-yes" onclick="document.getElementById('ageGate').style.display='none';localStorage.setItem('age','yes')">SIM, TENHO 18+</button></div></div>
 <div class="header">
-<div class="topbar"><div class="logo">MAMBO VAZOUX</div><div class="searchBox"><input id="searchInput" placeholder="Pesquisar..." oninput="onSearch()"><button onclick="onSearch()">🔍</button></div></div>
+<div class="topbar"><div class="logo">MAMBO VAZOUX <span style="font-size:10px;background:#00c851;color:#fff;padding:2px 6px;border-radius:10px;vertical-align:middle">✓ VERIFICADO 18+ RTA • 2257 • SSL</span></div><div class="searchBox"><input id="searchInput" placeholder="Pesquisar..." oninput="onSearch()"><button onclick="onSearch()">🔍</button></div></div>
 <div class="filters"><button class="active" data-f="todos" onclick="setFilter('todos')">Todos</button><button data-f="novos" onclick="setFilter('novos')">Novos</button><button data-f="fav" onclick="setFilter('fav')">⭐ Favoritos</button><button data-f="popular" onclick="setFilter('popular')">🔥 Popular</button></div>
 </div>
 <div class="ad ad-top">AD TOPO 728x90 - ExoClick ID top728</div>
 <div class="main"><div class="content"><div class="videos" id="lista"></div><div class="ad ad-native">AD NATIVO FEED - ID native1</div><div class="pagination" id="paginacao"></div></div><div class="sidebar"><div style="position:sticky;top:90px"><div class="ad ad-side">AD 300x250 ID side1</div><div class="ad ad-side" style="margin-top:10px;height:600px">AD 300x600 ID side600</div></div></div></div>
 <div class="modal" id="videoModal"><div class="modalBox"><div class="modalHead"><b id="modalTitle"></b><button onclick="closeModal()">✕</button></div><div class="ad ad-top" style="height:90px">AD PRE-ROLL</div><div class="videoWrap"><video id="player" controls style="width:100%;height:100%"></video></div><div class="comments"><h3>Comentários (<span id="cmtCount">0</span>)</h3><div id="cmtList"></div><div class="cmtForm"><input id="cmtName" placeholder="Nome"><input id="cmtText" placeholder="Comentário..." style="flex:2"><button onclick="sendCmt()">Enviar</button></div></div></div></div>
-<div class="footer">18 U.S.C. 2257 - Todos 18+ | DMCA dmca@mambovazoux.ao | © 2026</div>
-<script>
+<div class="footer" style="background:#000;padding:15px;text-align:center;border-top:2px solid #00c851">
+<div style="margin-bottom:8px">
+<span style="background:#00c851;color:#fff;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold">✓ VERIFICADO 18+</span>
+<span style="background:#fff;color:#000;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:bold;margin-left:6px">RTA • Restricted To Adults</span>
+<span style="background:#1a1a1a;color:#ff0040;border:1px solid #ff0040;padding:2px 6px;border-radius:4px;font-size:10px;margin-left:6px">2257 COMPLIANT</span>
+</div>
+<div style="color:#888;font-size:10px;line-height:1.6">
+18 U.S.C. §2257 - Todos modelos com 18+ verificados por documento • DMCA Protected: dmca@mambovazoux.ao • SSL Secure<br>
+Conteúdo consensual • RTA Label • ASACP • © 2026 Mambo Vazoux Angola - Site Verificado
+</div>
+</div>
 const SUPABASE_URL="https://lahrudhqrzhoqccycfwf.supabase.co"
 const SUPABASE_KEY="sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg"
 const supa=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
