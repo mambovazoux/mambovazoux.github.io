@@ -2,46 +2,105 @@
 <html lang="pt-AO">
 <head>
 <meta charset="UTF-8">
-<title>Admin - Mambo Vazoux</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mambo Vazoux - Angola 18+</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-body{background:#111;color:#fff;font-family:Arial;padding:20px}
-input,textarea{width:100%;padding:10px;margin:8px 0;background:#222;border:1px solid #444;color:#fff;border-radius:5px}
-button{background:#ff0040;color:#fff;padding:12px;border:none;border-radius:5px;cursor:pointer;width:100%;font-weight:bold;margin-top:5px}
-.card{background:#1a1a1a;padding:15px;margin:10px 0;border-radius:8px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#fff;font-family:Arial;line-height:1.4}
+#ageGate{position:fixed;inset:0;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
+.ageBox{background:#1a1a1a;padding:30px;border-radius:15px;border:2px solid #ff0040;max-width:420px;width:100%}
+.btn{padding:12px;border:none;border-radius:25px;font-weight:bold;cursor:pointer}
+.btn-yes{background:#ff0040;color:#fff;width:100%;margin:10px 0}
+.btn-no{background:#333;color:#fff;width:100%}
+.header{background:#000;padding:15px;text-align:center;border-bottom:2px solid #ff0040;position:sticky;top:0;z-index:100}
+.nav button{background:#1a1a1a;color:#fff;border:1px solid #333;padding:6px 14px;border-radius:20px;cursor:pointer;margin:2px}
+.nav button.active{background:#ff0040}
+.ad{background:#111;border:1px dashed #444;color:#666;font-size:11px;display:flex;align-items:center;justify-content:center;text-align:center;margin:10px auto}
+.ad-top{width:100%;max-width:728px;height:90px}
+.ad-mid{width:100%;max-width:700px;height:100px}
+.ad-side{width:300px;height:250px}
+.main{display:flex;max-width:1200px;margin:0 auto;gap:10px;padding:10px}
+.content{flex:1}
+.videos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:700px){.videos{grid-template-columns:repeat(3,1fr)}}
+.card{background:#1a1a1a;border-radius:10px;overflow:hidden;position:relative}
+.card img{width:100%;height:170px;object-fit:cover;background:#222}
+.card-body{padding:8px}
+.fav{position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.8);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer}
+.fav.active{color:#ff0040}
+.sidebar{display:none}
+@media(min-width:900px){.sidebar{display:block;width:320px}}
+.legal{background:#111;padding:20px;margin-top:20px;border-top:1px solid #222}
+.legal h3{color:#ff0040;margin:15px 0 5px;font-size:14px}
+.legal p{font-size:11px;color:#aaa;margin-bottom:10px}
+.footer{padding:20px;text-align:center;color:#555;font-size:10px;border-top:1px solid #222}
+.footer a{color:#777;text-decoration:none;margin:0 5px}
 </style>
 </head>
 <body>
-<h2>ADMIN MAMBO VAZOUX</h2>
-<input id="titulo" placeholder="Título do vídeo">
-<input id="thumb" placeholder="Link da thumbnail">
-<input id="video" placeholder="Link do vídeo">
-<textarea id="desc" placeholder="Descrição"></textarea>
-<button onclick="salvar()">SALVAR VÍDEO</button>
-<div id="status"></div>
-<div id="lista"></div>
+
+<div id="ageGate"><div class="ageBox">
+<h1 style="color:#ff0040">18+ APENAS ADULTOS</h1>
+<p style="margin:15px 0;font-size:14px">Este site contém material sexual explícito. Você declara que tem pelo menos 18 anos (21 em alguns locais) e concorda com nossos Termos.</p>
+<p style="font-size:11px;color:#888;margin-bottom:10px">Ao entrar você confirma que todos os modelos têm 18+ (18 U.S.C. 2257)</p>
+<button class="btn btn-yes" onclick="entrar()">SIM, TENHO 18+ - ENTRAR</button>
+<button class="btn btn-no" onclick="location.href='https://google.com'">NÃO, SAIR</button>
+</div></div>
+
+<div class="header"><h1 style="color:#ff0040;letter-spacing:2px">MAMBO VAZOUX</h1><p style="font-size:11px;color:#888">VIDEOS EXCLUSIVOS ANGOLA | 18+</p><div class="nav"><button class="active" onclick="filtrar('todos',this)">Todos - 6 em destaque</button><button onclick="filtrar('fav',this)">⭐ Favoritos</button></div></div>
+
+<div class="ad ad-top">AD TOPO 728x90 - COLE CODIGO EXOCLICK AQUI</div>
+
+<div class="main">
+<div class="content">
+<div class="videos" id="lista"></div>
+<div class="ad ad-mid">AD NATIVO ENTRE VIDEOS - COLE CODIGO AQUI</div>
+<div class="videos" id="lista2"></div>
+</div>
+<div class="sidebar"><div class="ad ad-side">AD 300x250 LATERAL 1</div><div class="ad ad-side" style="margin-top:10px">AD 300x250 LATERAL 2 - POP</div></div>
+</div>
+
+<div class="ad ad-top">AD RODAPE 728x90</div>
+
+<div class="legal" id="legal">
+<h3>18 U.S.C. 2257 RECORD-KEEPING REQUIREMENTS COMPLIANCE STATEMENT</h3>
+<p>Todo conteúdo visual deste site, fotos e vídeos, com modelos com 18 anos ou mais no momento da produção. Todos os registros exigidos pela seção 2257 do Título 18 do Código dos EUA são mantidos pelo custodiante de registros. Mambo Vazoux é um site de compartilhamento de links, não produz conteúdo.</p>
+<h3>DMCA - DIREITOS AUTORAIS</h3>
+<p>Se você é detentor de direitos e deseja remoção, envie e-mail para: dmca@mambovazoux.com com URL exata e prova de propriedade. Removemos em 24-48h. Respeitamos a DMCA.</p>
+<h3>PRIVACY POLICY / POLÍTICA DE PRIVACIDADE</h3>
+<p>Não coletamos dados pessoais. Usamos LocalStorage apenas para função Favoritos no seu aparelho. Usamos cookies de terceiros (ExoClick, Google) para ads. Ao usar concorda.</p>
+<h3>TERMS OF USE / TERMOS</h3>
+<p>Proibido acesso a menores de 18 anos. Proibido revenda. Conteúdo de terceiros, não nos responsabilizamos. Angola: maioridade 18 anos.</p>
+<h3>CONTATO</h3>
+<p>Contato, parcerias, remoção: contato@mambovazoux.com</p>
+</div>
+
+<div class="footer">
+<a href="#legal">2257</a> | <a href="#legal">DMCA</a> | <a href="#legal">Privacy</a> | <a href="#legal">Terms</a> | <a href="#legal">Contact</a><br><br>
+© 2026 Mambo Vazoux Angola - Todos modelos 18+ - Site +18 Não armazena vídeos, apenas indexa links externos.<br>
+SEU SUPABASE: lahrudhqrzhoqccycfwf.supabase.co CONECTADO ✅
+</div>
+
 <script>
-const SUPABASE_URL = "https://lahrudhqrzhoqccycfwf.supabase.co"
-const SUPABASE_KEY = "sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg"
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-async function salvar(){
-const t=document.getElementById('titulo').value
-const th=document.getElementById('thumb').value
-const v=document.getElementById('video').value
-const d=document.getElementById('desc').value
-if(!t||!v){alert('Falta título e vídeo');return}
-document.getElementById('status').innerText='A salvar...'
-const {error}=await supabaseClient.from('videos').insert([{titulo:t,thumb:th,video_url:v,descricao:d}])
-if(error){document.getElementById('status').innerText='Erro: '+error.message}
-else{document.getElementById('status').innerText='Salvo!';load()}
+const SUPABASE_URL="https://lahrudhqrzhoqccycfwf.supabase.co"
+const SUPABASE_KEY="sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg"
+const supa=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
+let todosVideos=[],filtro='todos'
+function entrar(){document.getElementById('ageGate').style.display='none';localStorage.setItem('age','yes')}
+if(localStorage.getItem('age')=='yes')document.getElementById('ageGate').style.display='none'
+function getFav(){return JSON.parse(localStorage.getItem('fav')||'[]')}
+function toggleFav(id){let f=getFav();if(f.includes(id))f=f.filter(x=>x!=id);else f.push(id);localStorage.setItem('fav',JSON.stringify(f));render()}
+function filtrar(t,el){filtro=t;document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));el.classList.add('active');render()}
+function render(){
+let data=todosVideos;if(filtro=='fav'){let f=getFav();data=data.filter(v=>f.includes(v.id))}
+let h1='',h2='';data.slice(0,6).forEach(v=>{let active=getFav().includes(v.id)?'active':'';h1+=`<div class="card"><button class="fav ${active}" onclick="toggleFav(${v.id})">★</button><img src="${v.thumb||'https://via.placeholder.com/300x170/111/ff0040?text=Sem+Thumb'}"><div class="card-body"><h4 style="font-size:12px">${v.titulo||'Sem titulo'}</h4><a href="${v.video_url}" target="_blank" style="color:#ff0040;font-size:12px">▶ Assistir</a></div></div>`})
+data.slice(6,12).forEach(v=>{let active=getFav().includes(v.id)?'active':'';h2+=`<div class="card"><button class="fav ${active}" onclick="toggleFav(${v.id})">★</button><img src="${v.thumb}"><div class="card-body"><h4 style="font-size:12px">${v.titulo}</h4><a href="${v.video_url}" target="_blank" style="color:#ff0040">▶ Assistir</a></div></div>`})
+document.getElementById('lista').innerHTML=h1||'<p style="grid-column:1/3;text-align:center;padding:30px;color:#666">Nenhum vídeo. Vai em /admin.html e adiciona 6 vídeos</p>'
+document.getElementById('lista2').innerHTML=h2
 }
-async function load(){
-let {data}=await supabaseClient.from('videos').select('*').order('id',{ascending:false})
-let html=''
-data?.forEach(v=>{html+=`<div class="card"><b>${v.titulo}</b><br>${v.video_url}</div>`})
-document.getElementById('lista').innerHTML=html
-}
-load()
+async function carregar(){let {data}=await supa.from('videos').select('*').order('id',{ascending:false});todosVideos=data||[];render()}
+carregar()
 </script>
 </body>
-</html>
+  </html>
