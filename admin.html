@@ -3,58 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ADMIN MAMBO VAZOUX - FIX</title>
-<style>
-body{background:#000;color:#fff;font-family:sans-serif;padding:15px}
-h1{color:#ff0044;text-align:center}
-input,textarea{width:100%;padding:14px;margin:8px 0;border-radius:8px;background:#222;color:#fff;border:none;box-sizing:border-box}
-button{background:#ff0044;color:#fff;border:none;padding:16px;width:100%;border-radius:10px;font-size:18px;font-weight:bold}
-.video{background:#111;padding:10px;margin:10px 0;border-radius:8px}
-img{width:100%;border-radius:8px}
-</style>
+<title>ADMIN</title>
+<style>body{background:#000;color:#fff;font-family:sans-serif;padding:15px}input{width:100%;padding:12px;margin:6px 0;border-radius:6px;background:#222;color:#fff;border:none}button{background:#ff0044;color:#fff;border:none;padding:15px;width:100%;border-radius:8px;font-size:18px}</style>
 </head>
 <body>
-<h1>ADMIN MAMBO VAZOUX</h1>
-<input id="titulo" placeholder="Nome">
-<input id="capa" placeholder="Link da capa (freeimage)">
-<input id="video" placeholder="Link do video (buzzheavier)">
-<textarea id="desc" placeholder="Descrição"></textarea>
-<button onclick="salvar()">💾 SALVAR VÍDEO</button>
-<div id="lista"></div>
+<h2 style="color:#ff0044">ADMIN MAMBO</h2>
+<input id="t" placeholder="Nome: Morena de Viana">
+<input id="c" placeholder="Link da capa: https://iili.io/nO71nyb.png">
+<input id="v" placeholder="Link do video: buzzheavier">
+<input id="d" placeholder="Descrição">
+<button onclick="S()">SALVAR</button>
+<div id="L"></div>
 <script>
-function carregar(){
- let v=JSON.parse(localStorage.getItem("mambovideos")||"[]");
- let h="";
- v.reverse().forEach((x,i)=>{
-  h+=`<div class=video><b>${x.titulo}</b><br><img src="${x.capa}"><br>${x.desc}<br><small>${x.video}</small><br><button onclick="apagar(${v.length-1-i})">Apagar</button></div>`;
- });
- document.getElementById("lista").innerHTML="<h3>Vídeos salvos: "+v.length+"</h3>"+h;
-}
-function salvar(){
- let v={
-  titulo:document.getElementById("titulo").value,
-  capa:document.getElementById("capa").value,
-  video:document.getElementById("video").value,
-  desc:document.getElementById("desc").value,
-  id:Date.now()
- };
- if(!v.titulo||!v.video){alert("Preenche título e vídeo!");return;}
- let lista=JSON.parse(localStorage.getItem("mambovideos")||"[]");
- lista.push(v);
- localStorage.setItem("mambovideos",JSON.stringify(lista));
- localStorage.setItem("videos",JSON.stringify(lista));
- alert("✅ SALVO! "+v.titulo);
- carregar();
- document.getElementById("titulo").value="";
-}
-function apagar(i){
- let l=JSON.parse(localStorage.getItem("mambovideos")||"[]");
- l.splice(i,1);
- localStorage.setItem("mambovideos",JSON.stringify(l));
- localStorage.setItem("videos",JSON.stringify(l));
- carregar();
-}
-carregar();
+function C(){let a=JSON.parse(localStorage.getItem("mambovideos")||"[]");let h="Salvos: "+a.length+"<br>";a.forEach((x,i)=>{h+=`<div style="background:#111;margin:8px 0;padding:8px;border-radius:6px"><img src="${x.capa}" style="width:100%">${x.titulo}<br><button onclick="D(${i})">Apagar</button></div>`});document.getElementById("L").innerHTML=h}
+function S(){let o={titulo:document.getElementById("t").value,capa:document.getElementById("c").value,video:document.getElementById("v").value,desc:document.getElementById("d").value,id:Date.now()};let a=JSON.parse(localStorage.getItem("mambovideos")||"[]");a.push(o);localStorage.setItem("mambovideos",JSON.stringify(a));localStorage.setItem("videos",JSON.stringify(a));alert("SALVO!");C()}
+function D(i){let a=JSON.parse(localStorage.getItem("mambovideos")||"[]");a.splice(i,1);localStorage.setItem("mambovideos",JSON.stringify(a));localStorage.setItem("videos",JSON.stringify(a));C()}
+C();
 </script>
 </body>
 </html>
