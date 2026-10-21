@@ -98,5 +98,18 @@ document.getElementById('search').addEventListener('input',e=>{
 if(localStorage.getItem('age')==='yes') document.getElementById('ageGate').style.display='none';
 loadVideos();
 </script>
+ <script>
+let vids=JSON.parse(localStorage.getItem("mambovideos")||"[]");
+if(vids.length>0){
+ let area=document.createElement("div");
+ area.style="padding:10px";
+ let h="";
+ vids.reverse().forEach(v=>{
+  h+=`<div style="background:#111;margin:10px 0;border-radius:10px;overflow:hidden"><img src="${v.capa}" style="width:100%"><div style="padding:10px"><b style="color:#fff">${v.titulo}</b><br><span style="color:#aaa">${v.desc}</span><br><a href="${v.video}" style="display:block;background:#ff0044;color:#fff;text-align:center;padding:12px;border-radius:6px;margin-top:8px;text-decoration:none">▶️ VER VÍDEO</a></div></div>`;
+ });
+ area.innerHTML=h;
+ document.body.insertBefore(area, document.body.firstChild);
+}
+ </script>
 </body>
 </html>
