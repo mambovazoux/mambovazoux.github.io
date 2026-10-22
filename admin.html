@@ -1,24 +1,593 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ADMIN</title>
-<style>body{background:#000;color:#fff;font-family:sans-serif;padding:15px}input{width:100%;padding:12px;margin:6px 0;border-radius:6px;background:#222;color:#fff;border:none}button{background:#ff0044;color:#fff;border:none;padding:15px;width:100%;border-radius:8px;font-size:18px}</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>Admin | MAMBO VAZOUX</title>
+
+<style>
+:root {
+  --bg: #080808;
+  --panel: #121212;
+  --pink: #ff0750;
+  --text: #ffffff;
+  --muted: #999999;
+  --border: #292929;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  background: #101010;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-inner {
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.logo span {
+  color: var(--pink);
+}
+
+.badge {
+  color: var(--pink);
+  border: 1px solid var(--pink);
+  border-radius: 20px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+main {
+  max-width: 1000px;
+  padding: 22px 14px 45px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 25px;
+  margin: 8px 0;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 17px;
+}
+
+.stat small {
+  color: var(--muted);
+}
+
+.stat strong {
+  display: block;
+  font-size: 27px;
+  margin-top: 7px;
+  color: var(--pink);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 17px;
+  margin-bottom: 22px;
+}
+
+.panel h2 {
+  font-size: 18px;
+  margin: 0 0 17px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: #ddd;
+  margin: 15px 0 7px;
+}
+
+input, textarea {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  background: #080808;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: white;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--pink);
+}
+
+textarea {
+  min-height: 85px;
+  resize: vertical;
+}
+
+.help {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+.preview {
+  margin-top: 12px;
+  display: none;
+}
+
+.preview img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  background: #050505;
+  border-radius: 8px;
+}
+
+button, .link-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.primary {
+  width: 100%;
+  background: var(--pink);
+  color: white;
+  margin-top: 20px;
+}
+
+.secondary {
+  background: #242424;
+  color: white;
+}
+
+.delete {
+  background: #38121d;
+  color: #ff789a;
+}
+
+.search {
+  margin-bottom: 15px;
+}
+
+.video-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.video-card {
+  overflow: hidden;
+  background: #090909;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  min-width: 0;
+}
+
+.video-card img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  background: #222;
+}
+
+.card-info {
+  padding: 10px;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+.card-desc {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+
+.card-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.card-actions button {
+  flex: 1;
+  padding: 9px 5px;
+  font-size: 12px;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 10px;
+  border: 1px dashed #333;
+  border-radius: 10px;
+  grid-column: 1/-1;
+  font-size: 13px;
+}
+
+.notice {
+  background: #21151a;
+  border: 1px solid #522032;
+  border-radius: 9px;
+  padding: 12px;
+  color: #ffc3d2;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+footer {
+  text-align: center;
+  color: #666;
+  font-size: 11px;
+  padding: 20px;
+}
+
+@media (min-width: 650px) {
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .video-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .panel {
+    padding: 24px;
+  }
+}
+</style>
 </head>
+
 <body>
-<h2 style="color:#ff0044">ADMIN MAMBO</h2>
-<input id="t" placeholder="Nome: Morena de Viana">
-<input id="c" placeholder="Link da capa: https://iili.io/nO71nyb.png">
-<input id="v" placeholder="Link do video: buzzheavier">
-<input id="d" placeholder="Descrição">
-<button onclick="S()">SALVAR</button>
-<div id="L"></div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">MAMBO <span>VAZOUX</span></div>
+    <div class="badge">PAINEL ADMIN</div>
+  </div>
+</header>
+
+<main>
+
+  <h1>Gestão de vídeos 🎬</h1>
+  <div class="subtitle">
+    Gere as tuas publicações e organiza o conteúdo do teu portal.
+  </div>
+
+  <div class="notice">
+    ⚠️ Esta versão guarda os dados neste navegador.
+    As publicações ainda não são partilhadas automaticamente com
+    os visitantes nem com outros dispositivos.
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <small>Total de vídeos</small>
+      <strong id="total">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Estado</small>
+      <strong style="font-size:18px">LOCAL</strong>
+    </div>
+
+    <div class="stat">
+      <small>Por página no site</small>
+      <strong>6</strong>
+    </div>
+  </div>
+
+  <section class="panel">
+    <h2 id="formTitle">＋ Adicionar vídeo</h2>
+
+    <form id="videoForm">
+      <label for="t">Título do vídeo *</label>
+      <input id="t" maxlength="120"
+        placeholder="Ex.: Vídeo de demonstração"
+        required>
+
+      <label for="c">Link da capa *</label>
+      <input id="c" type="url"
+        placeholder="https://exemplo.com/capa.jpg"
+        required>
+
+      <div class="preview" id="preview">
+        <img id="previewImg" alt="Pré-visualização da capa">
+      </div>
+
+      <label for="v">Link do vídeo ou do leitor *</label>
+      <input id="v" type="url"
+        placeholder="https://exemplo.com/video"
+        required>
+
+      <div class="help">
+        Insere um link autorizado pelo serviço de alojamento.
+        Nem todos os links de páginas abrem diretamente num leitor.
+      </div>
+
+      <label for="d">Descrição</label>
+      <textarea id="d" maxlength="1000"
+        placeholder="Escreve uma descrição..."></textarea>
+
+      <button class="primary" type="submit" id="saveBtn">
+        PUBLICAR VÍDEO
+      </button>
+
+      <button class="secondary" type="button"
+        style="width:100%;margin-top:9px;display:none"
+        id="cancelBtn" onclick="cancelEdit()">
+        CANCELAR EDIÇÃO
+      </button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>📚 Vídeos guardados</h2>
+
+    <input class="search" id="search"
+      placeholder="🔎 Procurar vídeo pelo título...">
+
+    <div id="videoList" class="video-list"></div>
+  </section>
+
+</main>
+
+<footer>
+  MAMBO VAZOUX · Painel de gestão
+</footer>
+
 <script>
-function C(){let a=JSON.parse(localStorage.getItem("mambovideos")||"[]");let h="Salvos: "+a.length+"<br>";a.forEach((x,i)=>{h+=`<div style="background:#111;margin:8px 0;padding:8px;border-radius:6px"><img src="${x.capa}" style="width:100%">${x.titulo}<br><button onclick="D(${i})">Apagar</button></div>`});document.getElementById("L").innerHTML=h}
-function S(){let o={titulo:document.getElementById("t").value,capa:document.getElementById("c").value,video:document.getElementById("v").value,desc:document.getElementById("d").value,id:Date.now()};let a=JSON.parse(localStorage.getItem("mambovideos")||"[]");a.push(o);localStorage.setItem("mambovideos",JSON.stringify(a));localStorage.setItem("videos",JSON.stringify(a));alert("SALVO!");C()}
-function D(i){let a=JSON.parse(localStorage.getItem("mambovideos")||"[]");a.splice(i,1);localStorage.setItem("mambovideos",JSON.stringify(a));localStorage.setItem("videos",JSON.stringify(a));C()}
-C();
+const STORAGE_KEY = "mambovideos";
+
+let videos = readVideos();
+let editingId = null;
+
+function readVideos() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveVideos() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(videos));
+
+  // Mantém compatibilidade com versões anteriores.
+  localStorage.setItem("videos", JSON.stringify(videos));
+
+  renderVideos();
+}
+
+function validUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function escapeAttr(value) {
+  return escapeHTML(value);
+}
+
+document.getElementById("c").addEventListener("input", function() {
+  const preview = document.getElementById("preview");
+  const img = document.getElementById("previewImg");
+
+  if (validUrl(this.value)) {
+    img.src = this.value;
+    preview.style.display = "block";
+  } else {
+    img.removeAttribute("src");
+    preview.style.display = "none";
+  }
+});
+
+document.getElementById("videoForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const titulo = document.getElementById("t").value.trim();
+  const capa = document.getElementById("c").value.trim();
+  const video = document.getElementById("v").value.trim();
+  const desc = document.getElementById("d").value.trim();
+
+  if (!titulo || !capa || !video) {
+    alert("Preenche todos os campos obrigatórios.");
+    return;
+  }
+
+  if (!validUrl(capa) || !validUrl(video)) {
+    alert("Introduz links válidos que comecem por http:// ou https://");
+    return;
+  }
+
+  if (editingId !== null) {
+    videos = videos.map(item =>
+      item.id === editingId
+        ? {...item, titulo, capa, video, desc}
+        : item
+    );
+  } else {
+    videos.unshift({
+      id: Date.now(),
+      titulo,
+      capa,
+      video,
+      desc,
+      data: new Date().toISOString()
+    });
+  }
+
+  try {
+    saveVideos();
+    this.reset();
+    cancelEdit();
+    alert(editingId === null
+      ? "Vídeo guardado neste navegador!"
+      : "Vídeo atualizado!");
+  } catch {
+    alert("Não foi possível guardar. O armazenamento do navegador pode estar cheio.");
+  }
+});
+
+function renderVideos() {
+  document.getElementById("total").textContent = videos.length;
+
+  const query = document.getElementById("search").value
+    .trim().toLowerCase();
+
+  const filtered = videos.filter(item =>
+    String(item.titulo || "").toLowerCase().includes(query)
+  );
+
+  const list = document.getElementById("videoList");
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty">Nenhum vídeo encontrado.</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(item => `
+    <article class="video-card">
+      <img
+        src="${escapeAttr(item.capa)}"
+        alt="${escapeAttr(item.titulo)}"
+        loading="lazy"
+        onerror="this.style.display='none'">
+
+      <div class="card-info">
+        <div class="card-title">${escapeHTML(item.titulo)}</div>
+        <div class="card-desc">${escapeHTML(item.desc || "Sem descrição")}</div>
+
+        <div class="card-actions">
+          <button class="secondary"
+            onclick="editVideo(${Number(item.id)})">Editar</button>
+
+          <button class="delete"
+            onclick="deleteVideo(${Number(item.id)})">Apagar</button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function editVideo(id) {
+  const item = videos.find(video => video.id === id);
+  if (!item) return;
+
+  editingId = id;
+
+  document.getElementById("t").value = item.titulo || "";
+  document.getElementById("c").value = item.capa || "";
+  document.getElementById("v").value = item.video || "";
+  document.getElementById("d").value = item.desc || "";
+
+  document.getElementById("formTitle").textContent = "✏️ Editar vídeo";
+  document.getElementById("saveBtn").textContent = "GUARDAR ALTERAÇÕES";
+  document.getElementById("cancelBtn").style.display = "block";
+
+  document.getElementById("c").dispatchEvent(new Event("input"));
+  document.getElementById("videoForm").scrollIntoView({behavior:"smooth"});
+}
+
+function cancelEdit() {
+  editingId = null;
+  document.getElementById("videoForm").reset();
+  document.getElementById("preview").style.display = "none";
+  document.getElementById("formTitle").textContent = "＋ Adicionar vídeo";
+  document.getElementById("saveBtn").textContent = "PUBLICAR VÍDEO";
+  document.getElementById("cancelBtn").style.display = "none";
+}
+
+function deleteVideo(id) {
+  if (!confirm("Tens a certeza de que queres apagar este vídeo?")) return;
+
+  videos = videos.filter(item => item.id !== id);
+
+  if (editingId === id) cancelEdit();
+
+  saveVideos();
+}
+
+document.getElementById("search").addEventListener("input", renderVideos);
+
+renderVideos();
 </script>
+
 </body>
-</html>
+  </html>
