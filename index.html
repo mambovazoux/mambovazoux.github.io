@@ -1,532 +1,156 @@
 <!DOCTYPE html>
-<html lang="pt-AO">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="rating" content="adult">
-<title>Mambo Vazoux — Vídeos Angola</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>MAMBO VAZOUX</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#080808;color:#fff;font-family:Arial,sans-serif}
-button,input{font:inherit}
-button{cursor:pointer}
-.header{background:#000;padding:14px;position:sticky;top:0;z-index:20;border-bottom:2px solid #ff0044}
-.top{max-width:1200px;margin:auto;display:flex;align-items:center;gap:12px}
-.logo{font-size:21px;font-weight:900;color:#ff0044;white-space:nowrap}
-.search{display:flex;flex:1;min-width:0}
-.search input{width:100%;min-width:0;background:#1a1a1a;color:white;border:1px solid #333;padding:12px;border-radius:22px 0 0 22px}
-.search button{background:#ff0044;color:white;border:0;padding:0 16px;border-radius:0 22px 22px 0}
-.filters{display:flex;gap:8px;overflow-x:auto;padding:14px 0 0;max-width:1200px;margin:auto}
-.filters button,.page button{background:#191919;color:#ddd;border:1px solid #333;padding:9px 13px;border-radius:20px;white-space:nowrap}
-.filters button.active,.page button.active{background:#ff0044;color:white}
-.ad{display:flex;align-items:center;justify-content:center;text-align:center;background:#111;border:1px dashed #444;color:#aaa;font-size:11px;margin:12px auto;padding:8px}
-.ad-top{max-width:728px;width:100%;height:90px}
-.layout{max-width:1200px;margin:auto;padding:0 10px;display:flex;gap:15px}
-.content{flex:1;min-width:0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.card{position:relative;background:#151515;border:1px solid #292929;border-radius:10px;overflow:hidden}
-.thumb{width:100%;height:145px;object-fit:cover;background:#222;display:block;cursor:pointer}
-.cardbody{padding:10px}
-.title{font-size:14px;line-height:1.4;overflow-wrap:anywhere;margin-bottom:7px}
-.meta{display:flex;justify-content:space-between;color:#999;font-size:11px}
-.dots{position:absolute;right:7px;top:7px;width:32px;height:32px;border:0;border-radius:50%;background:#000c;color:white;font-size:22px;z-index:2}
-.menu{display:none;position:absolute;right:7px;top:42px;width:145px;background:#222;border:1px solid #444;border-radius:8px;z-index:5;overflow:hidden}
-.menu button{display:block;width:100%;padding:12px;text-align:left;background:#222;color:white;border:0}
-.menu button:hover{background:#383838}
-.sidebar{width:300px;display:none}
-.page{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;padding:22px 0}
-.page button{border-radius:7px}
-.page button:disabled{opacity:.4;cursor:default}
-.status{text-align:center;color:#aaa;padding:25px}
-.footer{text-align:center;color:#888;font-size:12px;padding:25px 12px;border-top:1px solid #222;margin-top:20px}
-.modal{display:none;position:fixed;inset:0;z-index:1000;background:#000e;overflow:auto;padding:12px}
-.modalbox{max-width:720px;margin:20px auto;background:#111;border:1px solid #333;border-radius:12px;overflow:hidden}
-.modalhead{display:flex;justify-content:space-between;align-items:center;padding:14px;gap:10px}
-.modalhead h2{font-size:16px;overflow-wrap:anywhere}
-.close{background:#333;color:white;border:0;border-radius:6px;padding:8px 12px}
-.player{width:100%;max-height:65vh;background:black;display:block}
-.comments{padding:14px}
-.comments h3{margin-bottom:12px}
-.comment{background:#202020;border-left:3px solid #ff0044;padding:10px;margin:8px 0;border-radius:5px;overflow-wrap:anywhere}
-.comment small{color:#aaa;display:block;margin-bottom:5px}
-.form{display:grid;gap:8px;margin-top:14px}
-.form input,.form textarea{background:#202020;border:1px solid #444;color:white;padding:11px;border-radius:7px;width:100%}
-.form button{background:#ff0044;color:white;border:0;border-radius:7px;padding:12px}
-#ageGate{position:fixed;inset:0;background:#000f;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px}
-.agebox{background:#151515;border:2px solid #ff0044;border-radius:14px;padding:25px;max-width:400px;text-align:center}
-.agebox h2{color:#ff0044;margin-bottom:12px}
-.agebox p{font-size:14px;line-height:1.5;color:#ddd}
-.agebox button{width:100%;padding:13px;background:#ff0044;color:white;border:0;border-radius:7px;margin-top:15px;font-weight:bold}
-@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.thumb{height:170px}}
-@media(min-width:1000px){.sidebar{display:block}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:400px){.logo{font-size:16px}.thumb{height:115px}.cardbody{padding:7px}.title{font-size:12px}}
+*{box-sizing:border-box}
+body{margin:0;background:#080808;color:white;font-family:Arial,sans-serif}
+header{padding:20px 14px;background:#111;border-bottom:2px solid #ff0044}
+h1{margin:0;color:#ff0044;text-align:center;font-size:27px}
+.subtitle{text-align:center;color:#aaa;margin:8px 0 16px}
+main{max-width:1100px;margin:auto;padding:14px}
+input{width:100%;padding:13px;border-radius:8px;border:1px solid #444;background:#191919;color:white;font-size:16px;margin-bottom:12px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.filters button,.page-btn{background:#222;color:white;border:1px solid #444;padding:10px 13px;border-radius:7px;cursor:pointer}
+.filters button.active,.page-btn.active{background:#ff0044;border-color:#ff0044}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:#151515;border:1px solid #292929;border-radius:9px;overflow:hidden}
+.thumb{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#222}
+.card-content{padding:10px}
+.card h3{font-size:14px;margin:0 0 9px;overflow-wrap:anywhere}
+.watch{display:block;width:100%;background:#ff0044;color:white;text-align:center;padding:11px;border:0;border-radius:6px;text-decoration:none;font-weight:bold}
+.player{display:none;background:#000;margin-top:10px}
+.player iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
+.description{color:#bbb;font-size:12px;margin:8px 0}
+#empty{text-align:center;color:#aaa;padding:30px 0;display:none}
+#pagination{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin:22px 0}
+footer{text-align:center;color:#777;padding:22px;font-size:12px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:950px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 
 <body>
-
-<div id="ageGate">
-  <div class="agebox">
-    <h2>AVISO 18+</h2>
-    <p>Este site destina-se exclusivamente a adultos com 18 anos ou mais. Continua apenas se tiveres idade legal para aceder a este conteúdo.</p>
-    <button onclick="confirmAge()">TENHO 18 ANOS OU MAIS</button>
-  </div>
-</div>
-
-<header class="header">
-  <div class="top">
-    <div class="logo">MAMBO VAZOUX</div>
-    <div class="search">
-      <input id="searchInput" placeholder="Pesquisar vídeos..." aria-label="Pesquisar vídeos">
-      <button onclick="searchVideos()">🔍</button>
-    </div>
-  </div>
-
-  <nav class="filters">
-    <button class="active" data-filter="todos" onclick="setFilter('todos',this)">Todos</button>
-    <button data-filter="novos" onclick="setFilter('novos',this)">Novos</button>
-    <button data-filter="fav" onclick="setFilter('fav',this)">⭐ Favoritos</button>
-    <button data-filter="popular" onclick="setFilter('popular',this)">🔥 Popular</button>
-  </nav>
+<header>
+<h1>MAMBO VAZOUX</h1>
+<div class="subtitle">Conteúdo para adultos · 18+</div>
 </header>
 
-<div class="ad ad-top">
-  PUBLICIDADE — 728 × 90
+<main>
+<input id="search" placeholder="Pesquisar vídeos..." autocomplete="off">
+
+<div class="filters">
+<button class="active" data-filter="all">Todos</button>
+<button data-filter="new">Novos</button>
+<button data-filter="fav">☆ Favoritos</button>
 </div>
 
-<main class="layout">
-  <section class="content">
-    <div id="status" class="status">A carregar vídeos...</div>
-    <div id="lista" class="grid"></div>
-
-    <div class="ad">
-      PUBLICIDADE — ANÚNCIO NATIVO
-    </div>
-
-    <nav id="paginacao" class="page"></nav>
-  </section>
-
-  <aside class="sidebar">
-    <div style="position:sticky;top:100px">
-      <div class="ad" style="width:300px;height:250px">
-        PUBLICIDADE — 300 × 250
-      </div>
-      <div class="ad" style="width:300px;height:600px">
-        PUBLICIDADE — 300 × 600
-      </div>
-    </div>
-  </aside>
+<div class="grid" id="grid"></div>
+<div id="empty">Nenhum vídeo encontrado.</div>
+<div id="pagination"></div>
 </main>
 
-<div id="videoModal" class="modal">
-  <div class="modalbox">
-    <div class="modalhead">
-      <h2 id="modalTitle"></h2>
-      <button class="close" onclick="closeModal()">✕ Fechar</button>
-    </div>
-
-    <div class="ad">PUBLICIDADE — ESPAÇO PARA PRÉ-ROLL</div>
-
-    <video id="player" class="player" controls playsinline preload="metadata"></video>
-
-    <section class="comments">
-      <h3>Comentários (<span id="cmtCount">0</span>)</h3>
-      <div id="cmtList"></div>
-
-      <div class="form">
-        <input id="cmtName" maxlength="50" placeholder="O teu nome (opcional)">
-        <textarea id="cmtText" maxlength="1000" rows="3" placeholder="Escreve um comentário..."></textarea>
-        <button id="sendButton" onclick="sendCmt()">Enviar comentário</button>
-      </div>
-      <p id="cmtStatus" style="color:#aaa;font-size:12px;margin-top:10px"></p>
-    </section>
-  </div>
-</div>
-
-<footer class="footer">
-  Mambo Vazoux · Conteúdo destinado a adultos · 18+<br>
-  Publica apenas conteúdo legal e autorizado. Disponibiliza informações legais e de contacto verdadeiras.
-</footer>
+<footer>18+ · Acede apenas a conteúdo que tens autorização para visualizar.</footer>
 
 <script>
-const SUPABASE_URL = "https://lahrudhqrzhoqccycfwf.supabase.co";
-const SUPABASE_KEY = "sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg";
+const VIDEOS_PER_PAGE=6;
 
-const supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let allVideos = [];
-let filtered = [];
-let currentPage = 1;
-const perPage = 12;
-let currentFilter = "todos";
-let searchTerm = "";
-let currentId = null;
-
-function confirmAge(){
-  localStorage.setItem("age","yes");
-  document.getElementById("ageGate").style.display="none";
+const videos=[
+{
+ title:"Vídeo de teste",
+ thumbnail:"https://strm9.uqload.vc/i/03/06033/j046v8p2e9ty_t.jpg",
+ url:"https://uqload.vc/embed-j046v8p2e9ty.html",
+ description:"Vídeo de teste do Mambo Vazoux."
 }
+];
 
-if(localStorage.getItem("age")==="yes"){
-  document.getElementById("ageGate").style.display="none";
-}
+let currentPage=1;
+let currentFilter="all";
+let query="";
+let favorites=JSON.parse(localStorage.getItem("mv_favorites")||"[]");
 
-function getFav(){
-  try{return JSON.parse(localStorage.getItem("fav")||"[]")}
-  catch(e){return []}
-}
-
-function toggleFav(id){
-  let fav=getFav();
-  if(fav.includes(id)) fav=fav.filter(x=>x!==id);
-  else fav.push(id);
-  localStorage.setItem("fav",JSON.stringify(fav));
-  render();
-}
-
-function setFilter(filter,button){
-  currentFilter=filter;
-  currentPage=1;
-  document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
-  button.classList.add("active");
-  applyFilters();
-}
-
-function searchVideos(){
-  searchTerm=document.getElementById("searchInput").value.trim().toLowerCase();
-  currentPage=1;
-  applyFilters();
-}
-
-document.getElementById("searchInput").addEventListener("input",searchVideos);
-
-function applyFilters(){
-  filtered=allVideos.filter(v=>{
-    const title=String(v.titulo||"").toLowerCase();
-    return title.includes(searchTerm);
-  });
-
-  if(currentFilter==="fav"){
-    const fav=getFav();
-    filtered=filtered.filter(v=>fav.includes(v.id));
-  }
-
-  if(currentFilter==="novos"){
-    filtered.sort((a,b)=>Number(b.id)-Number(a.id));
-  }
-
-  if(currentFilter==="popular"){
-    filtered.sort((a,b)=>(Number(b.views)||0)-(Number(a.views)||0));
-  }
-
-  const totalPages=Math.max(1,Math.ceil(filtered.length/perPage));
-  if(currentPage>totalPages)currentPage=totalPages;
-  render();
-}
-
-function makeButton(text,action){
-  const b=document.createElement("button");
-  b.textContent=text;
-  b.onclick=action;
-  return b;
+function getVideos(){
+ let list=videos.filter(v=>v.title.toLowerCase().includes(query));
+ if(currentFilter==="fav") list=list.filter(v=>favorites.includes(v.url));
+ if(currentFilter==="new") list=list.slice().reverse();
+ return list;
 }
 
 function render(){
-  const list=document.getElementById("lista");
-  list.replaceChildren();
+ const list=getVideos();
+ const totalPages=Math.max(1,Math.ceil(list.length/VIDEOS_PER_PAGE));
+ currentPage=Math.min(currentPage,totalPages);
+ const start=(currentPage-1)*VIDEOS_PER_PAGE;
+ const visible=list.slice(start,start+VIDEOS_PER_PAGE);
 
-  const start=(currentPage-1)*perPage;
-  const items=filtered.slice(start,start+perPage);
+ document.getElementById("grid").innerHTML=visible.map(v=>`
+ <article class="card">
+   <img class="thumb" src="${escapeHTML(v.thumbnail)}" alt=""
+        loading="lazy" onerror="this.style.display='none'">
+   <div class="card-content">
+     <h3>${escapeHTML(v.title)}</h3>
+     <p class="description">${escapeHTML(v.description||"")}</p>
+     <button class="watch" onclick="playVideo(this, '${encodeURIComponent(v.url)}')">▶ Assistir</button>
+     <button class="watch" style="margin-top:6px;background:#292929"
+       onclick="toggleFavorite('${encodeURIComponent(v.url)}')">
+       ${favorites.includes(v.url)?"★ Favorito":"☆ Favoritar"}
+     </button>
+     <div class="player"></div>
+   </div>
+ </article>`).join("");
 
-  document.getElementById("status").textContent=
-    filtered.length ? filtered.length+" vídeo(s) encontrado(s)" : "Nenhum vídeo encontrado.";
+ document.getElementById("empty").style.display=list.length?"none":"block";
 
-  items.forEach(v=>{
-    const card=document.createElement("article");
-    card.className="card";
-
-    const dots=makeButton("⋮",()=>toggleMenu(v.id));
-    dots.className="dots";
-    dots.setAttribute("aria-label","Opções do vídeo");
-
-    const menu=document.createElement("div");
-    menu.className="menu";
-    menu.id="menu-"+v.id;
-
-    const fav=getFav().includes(v.id);
-    menu.append(
-      makeButton(fav?"★ Remover favorito":"☆ Favoritar",()=>toggleFav(v.id)),
-      makeButton("🔗 Partilhar",()=>shareVideo(v)),
-      makeButton("🚩 Reportar",()=>reportVideo(v))
-    );
-
-    const img=document.createElement("img");
-    img.className="thumb";
-    img.loading="lazy";
-    img.alt=String(v.titulo||"Vídeo");
-    img.src=v.thumb||"";
-    img.onerror=()=>{img.style.display="none"};
-    img.onclick=()=>openVid(v.id);
-
-    const body=document.createElement("div");
-    body.className="cardbody";
-
-    const title=document.createElement("h3");
-    title.className="title";
-    title.textContent=v.titulo||"Vídeo sem título";
-    title.onclick=()=>openVid(v.id);
-    title.style.cursor="pointer";
-
-    const meta=document.createElement("div");
-    meta.className="meta";
-
-    const views=document.createElement("span");
-    views.textContent=(Number(v.views)||0)+" visualizações";
-
-    const star=makeButton(fav?"★":"☆",()=>toggleFav(v.id));
-    star.style.cssText="background:none;border:0;color:#ff0044";
-
-    meta.append(views,star);
-    body.append(title,meta);
-    card.append(dots,menu,img,body);
-    list.append(card);
-  });
-
-  renderPagination();
+ document.getElementById("pagination").innerHTML=Array.from({length:totalPages},(_,i)=>
+ `<button class="page-btn ${currentPage===i+1?"active":""}" onclick="goPage(${i+1})">${i+1}</button>`
+ ).join("");
 }
 
-function toggleMenu(id){
-  document.querySelectorAll(".menu").forEach(m=>{
-    if(m.id!=="menu-"+id)m.style.display="none";
-  });
-  const menu=document.getElementById("menu-"+id);
-  if(menu)menu.style.display=menu.style.display==="block"?"none":"block";
+function playVideo(button,encodedUrl){
+ const url=decodeURIComponent(encodedUrl);
+ const player=button.parentElement.querySelector(".player");
+ document.querySelectorAll(".player").forEach(p=>{
+   if(p!==player){p.style.display="none";p.innerHTML=""}
+ });
+ if(player.style.display==="block"){
+   player.style.display="none";player.innerHTML="";return;
+ }
+ player.innerHTML=`<iframe src="${escapeHTML(url)}" title="Leitor de vídeo" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+ player.style.display="block";
 }
 
-async function shareVideo(v){
-  const url=location.origin+location.pathname+"?video="+encodeURIComponent(v.id);
-  try{
-    if(navigator.share){
-      await navigator.share({title:v.titulo||"Vídeo",url});
-    }else if(navigator.clipboard){
-      await navigator.clipboard.writeText(url);
-      alert("Link copiado!");
-    }else{
-      prompt("Copia este link:",url);
-    }
-  }catch(e){}
+function toggleFavorite(encodedUrl){
+ const url=decodeURIComponent(encodedUrl);
+ favorites=favorites.includes(url)?favorites.filter(x=>x!==url):[...favorites,url];
+ localStorage.setItem("mv_favorites",JSON.stringify(favorites));
+ render();
 }
 
-function reportVideo(v){
-  const reason=prompt("Indica o motivo do reporte:");
-  if(reason&&reason.trim()){
-    alert("Obrigado. Regista este reporte para análise: vídeo "+v.id+".");
-  }
+function goPage(page){currentPage=page;render();window.scrollTo({top:0,behavior:"smooth"})}
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
-function renderPagination(){
-  const nav=document.getElementById("paginacao");
-  nav.replaceChildren();
-
-  const total=Math.max(1,Math.ceil(filtered.length/perPage));
-
-  const prev=makeButton("‹ Anterior",()=>go(currentPage-1));
-  prev.disabled=currentPage===1;
-  nav.append(prev);
-
-  let pages=[];
-  for(let i=1;i<=total;i++){
-    if(i===1||i===total||Math.abs(i-currentPage)<=1)pages.push(i);
-  }
-
-  let last=0;
-  pages.forEach(p=>{
-    if(p-last>1){
-      const dots=document.createElement("span");
-      dots.textContent="…";
-      dots.style.padding="8px";
-      nav.append(dots);
-    }
-
-    const b=makeButton(String(p),()=>go(p));
-    if(p===currentPage)b.classList.add("active");
-    nav.append(b);
-    last=p;
-  });
-
-  const next=makeButton("Seguinte ›",()=>go(currentPage+1));
-  next.disabled=currentPage===total;
-  nav.append(next);
-}
-
-function go(page){
-  const total=Math.max(1,Math.ceil(filtered.length/perPage));
-  if(page<1||page>total)return;
-  currentPage=page;
-  render();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-async function carregar(){
-  const status=document.getElementById("status");
-  try{
-    const {data,error}=await supa
-      .from("videos")
-      .select("*")
-      .order("id",{ascending:false});
-
-    if(error)throw error;
-
-    allVideos=data||[];
-    applyFilters();
-
-    const params=new URLSearchParams(location.search);
-    const videoId=params.get("video");
-    if(videoId){
-      const v=allVideos.find(x=>String(x.id)===videoId);
-      if(v)openVid(v.id);
-    }
-  }catch(e){
-    console.error(e);
-    status.textContent="Não foi possível carregar os vídeos. Verifica a ligação ao Supabase.";
-  }
-}
-
-async function openVid(id){
-  const v=allVideos.find(x=>String(x.id)===String(id));
-  if(!v)return;
-
-  currentId=v.id;
-  document.getElementById("modalTitle").textContent=v.titulo||"Vídeo";
-  document.getElementById("player").src=v.video_url||"";
-  document.getElementById("videoModal").style.display="block";
-  document.body.style.overflow="hidden";
-
-  await loadComments(v.id);
-
-  /*
-    A atualização de visualizações depende das políticas
-    de acesso configuradas na tabela videos.
-  */
-  try{
-    const {error}=await supa.from("videos")
-      .update({views:(Number(v.views)||0)+1})
-      .eq("id",v.id);
-
-    if(!error){
-      v.views=(Number(v.views)||0)+1;
-      render();
-    }
-  }catch(e){
-    console.warn("Não foi possível atualizar as visualizações.",e);
-  }
-}
-
-function closeModal(){
-  const player=document.getElementById("player");
-  player.pause();
-  player.removeAttribute("src");
-  player.load();
-  document.getElementById("videoModal").style.display="none";
-  document.body.style.overflow="";
-  currentId=null;
-}
-
-document.getElementById("videoModal").addEventListener("click",e=>{
-  if(e.target.id==="videoModal")closeModal();
+document.getElementById("search").addEventListener("input",e=>{
+ query=e.target.value.toLowerCase().trim();currentPage=1;render();
 });
 
-document.addEventListener("keydown",e=>{
-  if(e.key==="Escape")closeModal();
+document.querySelectorAll(".filters button").forEach(button=>{
+ button.addEventListener("click",()=>{
+  document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  currentFilter=button.dataset.filter;currentPage=1;render();
+ });
 });
 
-async function loadComments(videoId){
-  const list=document.getElementById("cmtList");
-  const status=document.getElementById("cmtStatus");
-  list.replaceChildren();
-  status.textContent="A carregar comentários...";
-
-  try{
-    const {data,error}=await supa.from("comentarios")
-      .select("id,nome,texto,created_at")
-      .eq("video_id",videoId)
-      .order("id",{ascending:false});
-
-    if(error)throw error;
-
-    document.getElementById("cmtCount").textContent=(data||[]).length;
-
-    if(!data||!data.length){
-      const p=document.createElement("p");
-      p.textContent="Ainda não há comentários.";
-      p.style.color="#888";
-      list.append(p);
-    }else{
-      data.forEach(c=>{
-        const item=document.createElement("div");
-        item.className="comment";
-
-        const name=document.createElement("small");
-        name.textContent=String(c.nome||"Anónimo");
-
-        const text=document.createElement("div");
-        text.textContent=String(c.texto||"");
-
-        item.append(name,text);
-        list.append(item);
-      });
-    }
-
-    status.textContent="";
-  }catch(e){
-    console.error(e);
-    status.textContent="Não foi possível carregar os comentários. Verifica a tabela e as permissões.";
-  }
-}
-
-async function sendCmt(){
-  if(currentId===null)return;
-
-  const nameInput=document.getElementById("cmtName");
-  const textInput=document.getElementById("cmtText");
-  const status=document.getElementById("cmtStatus");
-  const button=document.getElementById("sendButton");
-
-  const nome=nameInput.value.trim().slice(0,50)||"Anónimo";
-  const texto=textInput.value.trim();
-
-  if(!texto){
-    status.textContent="Escreve um comentário primeiro.";
-    return;
-  }
-
-  button.disabled=true;
-  status.textContent="A enviar...";
-
-  try{
-    const {error}=await supa.from("comentarios").insert([{
-      video_id:currentId,
-      nome,
-      texto:texto.slice(0,1000)
-    }]);
-
-    if(error)throw error;
-
-    textInput.value="";
-    await loadComments(currentId);
-  }catch(e){
-    console.error(e);
-    status.textContent="Não foi possível enviar. Verifica as permissões do Supabase.";
-  }finally{
-    button.disabled=false;
-  }
-}
-
-carregar();
+render();
 </script>
-
 </body>
-      </html>
+</html>
