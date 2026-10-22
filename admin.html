@@ -2,306 +2,80 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#080808">
 <title>Admin | MAMBO VAZOUX</title>
 
 <style>
 :root {
-  --bg: #080808;
-  --panel: #121212;
-  --pink: #ff0750;
-  --text: #ffffff;
-  --muted: #999999;
-  --border: #292929;
+  --bg:#080808;
+  --panel:#121212;
+  --pink:#ff0750;
+  --text:#fff;
+  --muted:#999;
+  --border:#292929;
 }
-
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif
 }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
+header{
+  background:#101010;border-bottom:1px solid var(--border);
+  padding:18px 15px
 }
-
-header {
-  background: #101010;
-  border-bottom: 1px solid var(--border);
-  padding: 20px 16px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.header-inner{
+  max-width:850px;margin:auto;display:flex;
+  justify-content:space-between;align-items:center;gap:10px
 }
-
-.header-inner {
-  max-width: 1000px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+.logo{font-size:21px;font-weight:900}
+.logo span{color:var(--pink)}
+.badge{font-size:11px;color:var(--pink);border:1px solid var(--pink);
+  border-radius:20px;padding:6px 10px}
+main{max-width:850px;margin:auto;padding:22px 14px 45px}
+h1{font-size:25px}
+.subtitle,.help{color:var(--muted);font-size:13px;line-height:1.6}
+.panel{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:13px;padding:18px;margin:18px 0
 }
-
-.logo {
-  font-size: 21px;
-  font-weight: 900;
-  letter-spacing: -1px;
+h2{font-size:18px;margin-top:0}
+label{display:block;margin:15px 0 7px;font-size:13px}
+input,textarea{
+  display:block;width:100%;padding:13px;background:#080808;
+  color:#fff;border:1px solid #333;border-radius:8px;font-size:14px
 }
-
-.logo span {
-  color: var(--pink);
+input:focus,textarea:focus{outline:1px solid var(--pink)}
+textarea{min-height:75px}
+button{
+  padding:12px 15px;border:0;border-radius:8px;
+  font-weight:bold;cursor:pointer;font-size:14px
 }
-
-.badge {
-  color: var(--pink);
-  border: 1px solid var(--pink);
-  border-radius: 20px;
-  padding: 6px 10px;
-  font-size: 11px;
-  font-weight: bold;
+.primary{background:var(--pink);color:white;width:100%;margin-top:18px}
+.secondary{background:#292929;color:white}
+.delete{background:#451321;color:#ff9db5}
+button:disabled{opacity:.5;cursor:wait}
+.notice{
+  background:#21151a;border:1px solid #522032;color:#ffc3d2;
+  border-radius:9px;padding:12px;font-size:12px;line-height:1.6
 }
-
-main {
-  max-width: 1000px;
-  padding: 22px 14px 45px;
-  margin: auto;
-}
-
-h1 {
-  font-size: 25px;
-  margin: 8px 0;
-}
-
-.subtitle {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 22px;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 22px;
-}
-
-.stat {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 17px;
-}
-
-.stat small {
-  color: var(--muted);
-}
-
-.stat strong {
-  display: block;
-  font-size: 27px;
-  margin-top: 7px;
-  color: var(--pink);
-}
-
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 17px;
-  margin-bottom: 22px;
-}
-
-.panel h2 {
-  font-size: 18px;
-  margin: 0 0 17px;
-}
-
-label {
-  display: block;
-  font-size: 13px;
-  color: #ddd;
-  margin: 15px 0 7px;
-}
-
-input, textarea {
-  display: block;
-  width: 100%;
-  padding: 13px;
-  background: #080808;
-  border: 1px solid #333;
-  border-radius: 8px;
-  color: white;
-  outline: none;
-  font-size: 14px;
-}
-
-input:focus, textarea:focus {
-  border-color: var(--pink);
-}
-
-textarea {
-  min-height: 85px;
-  resize: vertical;
-}
-
-.help {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.5;
-  margin-top: 6px;
-}
-
-.preview {
-  margin-top: 12px;
-  display: none;
-}
-
-.preview img {
-  width: 100%;
-  max-height: 220px;
-  object-fit: contain;
-  background: #050505;
-  border-radius: 8px;
-}
-
-button, .link-button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 15px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.primary {
-  width: 100%;
-  background: var(--pink);
-  color: white;
-  margin-top: 20px;
-}
-
-.secondary {
-  background: #242424;
-  color: white;
-}
-
-.delete {
-  background: #38121d;
-  color: #ff789a;
-}
-
-.search {
-  margin-bottom: 15px;
-}
-
-.video-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.video-card {
-  overflow: hidden;
-  background: #090909;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  min-width: 0;
-}
-
-.video-card img {
-  width: 100%;
-  aspect-ratio: 16/10;
-  object-fit: cover;
-  display: block;
-  background: #222;
-}
-
-.card-info {
-  padding: 10px;
-}
-
-.card-title {
-  font-weight: bold;
-  font-size: 13px;
-  overflow-wrap: anywhere;
-  line-height: 1.5;
-}
-
-.card-desc {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.5;
-  margin-top: 6px;
-  overflow-wrap: anywhere;
-}
-
-.card-actions {
-  display: flex;
-  gap: 7px;
-  margin-top: 12px;
-}
-
-.card-actions button {
-  flex: 1;
-  padding: 9px 5px;
-  font-size: 12px;
-}
-
-.empty {
-  text-align: center;
-  color: var(--muted);
-  padding: 30px 10px;
-  border: 1px dashed #333;
-  border-radius: 10px;
-  grid-column: 1/-1;
-  font-size: 13px;
-}
-
-.notice {
-  background: #21151a;
-  border: 1px solid #522032;
-  border-radius: 9px;
-  padding: 12px;
-  color: #ffc3d2;
-  font-size: 12px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-footer {
-  text-align: center;
-  color: #666;
-  font-size: 11px;
-  padding: 20px;
-}
-
-@media (min-width: 650px) {
-  .stats {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .video-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .panel {
-    padding: 24px;
-  }
-}
+.status{font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.video-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:#090909;border:1px solid #292929;border-radius:10px;overflow:hidden}
+.card img{width:100%;aspect-ratio:16/10;object-fit:cover;background:#222}
+.card-info{padding:10px}
+.card-title{font-weight:bold;font-size:13px;overflow-wrap:anywhere}
+.card-desc{font-size:11px;color:var(--muted);margin-top:6px;overflow-wrap:anywhere}
+.actions{display:flex;gap:7px;margin-top:12px}
+.actions button{flex:1;padding:9px 5px;font-size:12px}
+.preview{display:none;margin-top:10px}
+.preview img{max-width:100%;max-height:200px;border-radius:8px}
+.hidden{display:none!important}
+@media(min-width:650px){.video-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 
 <body>
-
 <header>
   <div class="header-inner">
     <div class="logo">MAMBO <span>VAZOUX</span></div>
@@ -310,284 +84,391 @@ footer {
 </header>
 
 <main>
-
   <h1>Gestão de vídeos 🎬</h1>
-  <div class="subtitle">
-    Gere as tuas publicações e organiza o conteúdo do teu portal.
-  </div>
+  <p class="subtitle">Publica e gere os vídeos do teu portal.</p>
 
   <div class="notice">
-    ⚠️ Esta versão guarda os dados neste navegador.
-    As publicações ainda não são partilhadas automaticamente com
-    os visitantes nem com outros dispositivos.
+    Usa apenas conteúdo que tens autorização para publicar.
+    O tamanho e os formatos permitidos dependem do alojamento.
   </div>
 
-  <div class="stats">
-    <div class="stat">
-      <small>Total de vídeos</small>
-      <strong id="total">0</strong>
-    </div>
+  <section class="panel" id="loginPanel">
+    <h2>🔐 Acesso do administrador</h2>
+    <form id="loginForm">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="username" required>
 
-    <div class="stat">
-      <small>Estado</small>
-      <strong style="font-size:18px">LOCAL</strong>
-    </div>
+      <label for="password">Palavra-passe</label>
+      <input id="password" type="password" autocomplete="current-password" required>
 
-    <div class="stat">
-      <small>Por página no site</small>
-      <strong>6</strong>
-    </div>
-  </div>
-
-  <section class="panel">
-    <h2 id="formTitle">＋ Adicionar vídeo</h2>
-
-    <form id="videoForm">
-      <label for="t">Título do vídeo *</label>
-      <input id="t" maxlength="120"
-        placeholder="Ex.: Vídeo de demonstração"
-        required>
-
-      <label for="c">Link da capa *</label>
-      <input id="c" type="url"
-        placeholder="https://exemplo.com/capa.jpg"
-        required>
-
-      <div class="preview" id="preview">
-        <img id="previewImg" alt="Pré-visualização da capa">
-      </div>
-
-      <label for="v">Link do vídeo ou do leitor *</label>
-      <input id="v" type="url"
-        placeholder="https://exemplo.com/video"
-        required>
-
-      <div class="help">
-        Insere um link autorizado pelo serviço de alojamento.
-        Nem todos os links de páginas abrem diretamente num leitor.
-      </div>
-
-      <label for="d">Descrição</label>
-      <textarea id="d" maxlength="1000"
-        placeholder="Escreve uma descrição..."></textarea>
-
-      <button class="primary" type="submit" id="saveBtn">
-        PUBLICAR VÍDEO
-      </button>
-
-      <button class="secondary" type="button"
-        style="width:100%;margin-top:9px;display:none"
-        id="cancelBtn" onclick="cancelEdit()">
-        CANCELAR EDIÇÃO
-      </button>
+      <button class="primary" id="loginBtn">ENTRAR</button>
     </form>
   </section>
 
-  <section class="panel">
-    <h2>📚 Vídeos guardados</h2>
+  <section id="adminPanel" class="hidden">
+    <section class="panel">
+      <p class="status" id="accountStatus">Sessão autenticada.</p>
+      <button class="secondary" id="logoutBtn">TERMINAR SESSÃO</button>
+    </section>
 
-    <input class="search" id="search"
-      placeholder="🔎 Procurar vídeo pelo título...">
+    <section class="panel">
+      <h2 id="formTitle">＋ Publicar vídeo</h2>
+      <form id="videoForm">
+        <label for="title">Título *</label>
+        <input id="title" maxlength="120" required>
 
-    <div id="videoList" class="video-list"></div>
+        <label for="description">Descrição</label>
+        <textarea id="description" maxlength="1000"></textarea>
+
+        <label for="videoFile">Escolher vídeo da galeria *</label>
+        <input id="videoFile" type="file" accept="video/*" required>
+        <p class="help">Seleciona um ficheiro de vídeo no telemóvel.</p>
+
+        <label for="coverFile">Escolher imagem de capa</label>
+        <input id="coverFile" type="file" accept="image/*">
+        <div class="preview" id="coverPreview">
+          <img id="coverPreviewImg" alt="Pré-visualização da capa">
+        </div>
+
+        <p class="help" id="editHelp"></p>
+        <button class="primary" id="publishBtn">ENVIAR E PUBLICAR</button>
+        <button class="secondary hidden" id="cancelBtn" type="button">CANCELAR EDIÇÃO</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>📚 Publicações</h2>
+      <p class="status" id="listStatus">A carregar...</p>
+      <div id="videoList" class="video-list"></div>
+    </section>
   </section>
-
 </main>
 
-<footer>
-  MAMBO VAZOUX · Painel de gestão
-</footer>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const STORAGE_KEY = "mambovideos";
+(() => {
+  "use strict";
 
-let videos = readVideos();
-let editingId = null;
+  const SUPABASE_URL = "https://lahrudhqrzhoqccycfwf.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg";
+  const BUCKET = "mambo-videos";
 
-function readVideos() {
-  try {
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(data) ? data : [];
-  } catch {
-    return [];
-  }
-}
+  const $ = id => document.getElementById(id);
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-function saveVideos() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(videos));
+  let editingId = null;
+  let existingPath = null;
+  let existingCover = null;
+  let records = [];
 
-  // Mantém compatibilidade com versões anteriores.
-  localStorage.setItem("videos", JSON.stringify(videos));
-
-  renderVideos();
-}
-
-function validUrl(value) {
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" || url.protocol === "http:";
-  } catch {
-    return false;
-  }
-}
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
-
-function escapeAttr(value) {
-  return escapeHTML(value);
-}
-
-document.getElementById("c").addEventListener("input", function() {
-  const preview = document.getElementById("preview");
-  const img = document.getElementById("previewImg");
-
-  if (validUrl(this.value)) {
-    img.src = this.value;
-    preview.style.display = "block";
-  } else {
-    img.removeAttribute("src");
-    preview.style.display = "none";
-  }
-});
-
-document.getElementById("videoForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const titulo = document.getElementById("t").value.trim();
-  const capa = document.getElementById("c").value.trim();
-  const video = document.getElementById("v").value.trim();
-  const desc = document.getElementById("d").value.trim();
-
-  if (!titulo || !capa || !video) {
-    alert("Preenche todos os campos obrigatórios.");
-    return;
+  function message(text) {
+    $("listStatus").textContent = text;
   }
 
-  if (!validUrl(capa) || !validUrl(video)) {
-    alert("Introduz links válidos que comecem por http:// ou https://");
-    return;
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, ch => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    })[ch]);
   }
 
-  if (editingId !== null) {
-    videos = videos.map(item =>
-      item.id === editingId
-        ? {...item, titulo, capa, video, desc}
-        : item
-    );
-  } else {
-    videos.unshift({
-      id: Date.now(),
-      titulo,
-      capa,
-      video,
-      desc,
-      data: new Date().toISOString()
+  function safeFileName(name) {
+    return name.normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9._-]/g, "_");
+  }
+
+  async function checkAdmin() {
+    const { data: { user }, error } = await client.auth.getUser();
+
+    if (error || !user) {
+      $("loginPanel").classList.remove("hidden");
+      $("adminPanel").classList.add("hidden");
+      return false;
+    }
+
+    const { data, error: adminError } = await client
+      .from("admins")
+      .select("user_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (adminError || !data) {
+      await client.auth.signOut();
+      $("loginPanel").classList.remove("hidden");
+      $("adminPanel").classList.add("hidden");
+      alert("Esta conta não está autorizada como administradora.");
+      return false;
+    }
+
+    $("loginPanel").classList.add("hidden");
+    $("adminPanel").classList.remove("hidden");
+    $("accountStatus").textContent = "Sessão iniciada: " + user.email;
+    await loadVideos();
+    return true;
+  }
+
+  $("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    $("loginBtn").disabled = true;
+    $("loginBtn").textContent = "A ENTRAR...";
+
+    try {
+      const { error } = await client.auth.signInWithPassword({
+        email: $("email").value.trim(),
+        password: $("password").value
+      });
+
+      if (error) throw error;
+      await checkAdmin();
+    } catch (error) {
+      alert("Não foi possível entrar: " + error.message);
+    } finally {
+      $("loginBtn").disabled = false;
+      $("loginBtn").textContent = "ENTRAR";
+    }
+  });
+
+  $("logoutBtn").addEventListener("click", async () => {
+    await client.auth.signOut();
+    location.reload();
+  });
+
+  async function uploadFile(file, folder) {
+    if (!file) return null;
+
+    const path = folder + "/" + crypto.randomUUID() + "-" + safeFileName(file.name);
+    const { error } = await client.storage.from(BUCKET).upload(path, file, {
+      upsert: false,
+      contentType: file.type || "application/octet-stream"
+    });
+
+    if (error) throw error;
+    return path;
+  }
+
+  $("coverFile").addEventListener("change", () => {
+    const file = $("coverFile").files[0];
+    if (!file) {
+      $("coverPreview").style.display = "none";
+      return;
+    }
+
+    $("coverPreviewImg").src = URL.createObjectURL(file);
+    $("coverPreview").style.display = "block";
+  });
+
+  $("videoForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const title = $("title").value.trim();
+    const description = $("description").value.trim();
+    const videoFile = $("videoFile").files[0];
+    const coverFile = $("coverFile").files[0];
+
+    if (!title) {
+      alert("Escreve o título.");
+      return;
+    }
+
+    if (!editingId && !videoFile) {
+      alert("Escolhe um vídeo da galeria.");
+      return;
+    }
+
+    const button = $("publishBtn");
+    button.disabled = true;
+    button.textContent = "A ENVIAR...";
+
+    let newVideoPath = null;
+    let newCoverPath = null;
+
+    try {
+      const { data: { user } } = await client.auth.getUser();
+      if (!user) throw new Error("A sessão expirou. Entra novamente.");
+
+      const { data: admin } = await client
+        .from("admins").select("user_id")
+        .eq("user_id", user.id).maybeSingle();
+
+      if (!admin) throw new Error("A conta não tem autorização de administrador.");
+
+      if (videoFile) {
+        newVideoPath = await uploadFile(videoFile, "videos");
+      }
+
+      if (coverFile) {
+        newCoverPath = await uploadFile(coverFile, "covers");
+      }
+
+      const videoPath = newVideoPath || existingPath;
+      const coverPath = newCoverPath || existingCover;
+
+      if (!videoPath) throw new Error("Não foi encontrado o ficheiro de vídeo.");
+
+      const payload = {
+        title,
+        description,
+        video_url: videoPath,
+        storage_path: videoPath,
+        thumbnail_url: coverPath || "",
+        category: "Geral"
+      };
+
+      let result;
+
+      if (editingId) {
+        result = await client.from("videos").update(payload).eq("id", editingId);
+      } else {
+        result = await client.from("videos").insert(payload);
+      }
+
+      if (result.error) throw result.error;
+
+      alert(editingId ? "Publicação atualizada!" : "Vídeo enviado e publicado!");
+      resetForm();
+      await loadVideos();
+    } catch (error) {
+      alert("Erro: " + error.message +
+        "\n\nSe o upload falhou, confirma as permissões do Storage, a sessão e os limites do ficheiro.");
+    } finally {
+      button.disabled = false;
+      button.textContent = editingId ? "GUARDAR ALTERAÇÕES" : "ENVIAR E PUBLICAR";
+    }
+  });
+
+  async function loadVideos() {
+    message("A carregar publicações...");
+    const { data, error } = await client
+      .from("videos")
+      .select("id,title,description,thumbnail_url,video_url,storage_path,created_at")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      message("Erro ao carregar: " + error.message);
+      return;
+    }
+
+    records = data || [];
+    renderVideos();
+    message("Total de publicações: " + records.length);
+  }
+
+  async function getPreviewUrl(path) {
+    if (!path) return "";
+    const { data, error } = await client.storage.from(BUCKET)
+      .createSignedUrl(path, 3600);
+    return error ? "" : data.signedUrl;
+  }
+
+  async function renderVideos() {
+    const list = $("videoList");
+
+    if (!records.length) {
+      list.innerHTML = '<p class="status">Ainda não existem publicações na tabela.</p>';
+      return;
+    }
+
+    list.innerHTML = "";
+
+    for (const item of records) {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const img = document.createElement("img");
+      img.alt = item.title || "Capa";
+      const coverUrl = await getPreviewUrl(item.thumbnail_url);
+      if (coverUrl) img.src = coverUrl;
+      else img.style.display = "none";
+      card.appendChild(img);
+
+      const info = document.createElement("div");
+      info.className = "card-info";
+      info.innerHTML = `
+        <div class="card-title">${escapeHTML(item.title)}</div>
+        <div class="card-desc">${escapeHTML(item.description || "Sem descrição")}</div>
+        <div class="actions">
+          <button class="secondary" data-edit="${escapeHTML(item.id)}">Editar</button>
+          <button class="delete" data-delete="${escapeHTML(item.id)}">Apagar</button>
+        </div>`;
+      card.appendChild(info);
+      list.appendChild(card);
+    }
+
+    list.querySelectorAll("[data-edit]").forEach(button => {
+      button.addEventListener("click", () => editVideo(button.dataset.edit));
+    });
+
+    list.querySelectorAll("[data-delete]").forEach(button => {
+      button.addEventListener("click", () => deleteVideo(button.dataset.delete));
     });
   }
 
-  try {
-    saveVideos();
-    this.reset();
-    cancelEdit();
-    alert(editingId === null
-      ? "Vídeo guardado neste navegador!"
-      : "Vídeo atualizado!");
-  } catch {
-    alert("Não foi possível guardar. O armazenamento do navegador pode estar cheio.");
-  }
-});
+  function editVideo(id) {
+    const item = records.find(row => String(row.id) === String(id));
+    if (!item) return;
 
-function renderVideos() {
-  document.getElementById("total").textContent = videos.length;
+    editingId = item.id;
+    existingPath = item.storage_path || item.video_url;
+    existingCover = item.thumbnail_url || null;
 
-  const query = document.getElementById("search").value
-    .trim().toLowerCase();
-
-  const filtered = videos.filter(item =>
-    String(item.titulo || "").toLowerCase().includes(query)
-  );
-
-  const list = document.getElementById("videoList");
-
-  if (!filtered.length) {
-    list.innerHTML = '<div class="empty">Nenhum vídeo encontrado.</div>';
-    return;
+    $("title").value = item.title || "";
+    $("description").value = item.description || "";
+    $("videoFile").required = false;
+    $("coverFile").required = false;
+    $("formTitle").textContent = "✏️ Editar publicação";
+    $("publishBtn").textContent = "GUARDAR ALTERAÇÕES";
+    $("cancelBtn").classList.remove("hidden");
+    $("editHelp").textContent =
+      "Deixa os campos de ficheiro vazios para manter os ficheiros atuais.";
+    $("videoForm").scrollIntoView({ behavior: "smooth" });
   }
 
-  list.innerHTML = filtered.map(item => `
-    <article class="video-card">
-      <img
-        src="${escapeAttr(item.capa)}"
-        alt="${escapeAttr(item.titulo)}"
-        loading="lazy"
-        onerror="this.style.display='none'">
+  async function deleteVideo(id) {
+    const item = records.find(row => String(row.id) === String(id));
+    if (!item || !confirm("Queres apagar esta publicação e os ficheiros associados?")) return;
 
-      <div class="card-info">
-        <div class="card-title">${escapeHTML(item.titulo)}</div>
-        <div class="card-desc">${escapeHTML(item.desc || "Sem descrição")}</div>
+    try {
+      const paths = [item.storage_path || item.video_url, item.thumbnail_url]
+        .filter(Boolean);
 
-        <div class="card-actions">
-          <button class="secondary"
-            onclick="editVideo(${Number(item.id)})">Editar</button>
+      const { error } = await client.from("videos").delete().eq("id", item.id);
+      if (error) throw error;
 
-          <button class="delete"
-            onclick="deleteVideo(${Number(item.id)})">Apagar</button>
-        </div>
-      </div>
-    </article>
-  `).join("");
-}
+      if (paths.length) {
+        const { error: storageError } = await client.storage.from(BUCKET).remove(paths);
+        if (storageError) {
+          alert("A publicação foi apagada, mas um ficheiro pode ter ficado no Storage: " +
+            storageError.message);
+        }
+      }
 
-function editVideo(id) {
-  const item = videos.find(video => video.id === id);
-  if (!item) return;
+      await loadVideos();
+    } catch (error) {
+      alert("Não foi possível apagar: " + error.message);
+    }
+  }
 
-  editingId = id;
+  function resetForm() {
+    editingId = null;
+    existingPath = null;
+    existingCover = null;
+    $("videoForm").reset();
+    $("videoFile").required = true;
+    $("formTitle").textContent = "＋ Publicar vídeo";
+    $("publishBtn").textContent = "ENVIAR E PUBLICAR";
+    $("cancelBtn").classList.add("hidden");
+    $("coverPreview").style.display = "none";
+    $("editHelp").textContent = "";
+  }
 
-  document.getElementById("t").value = item.titulo || "";
-  document.getElementById("c").value = item.capa || "";
-  document.getElementById("v").value = item.video || "";
-  document.getElementById("d").value = item.desc || "";
+  $("cancelBtn").addEventListener("click", resetForm);
 
-  document.getElementById("formTitle").textContent = "✏️ Editar vídeo";
-  document.getElementById("saveBtn").textContent = "GUARDAR ALTERAÇÕES";
-  document.getElementById("cancelBtn").style.display = "block";
+  client.auth.onAuthStateChange(() => {
+    setTimeout(() => checkAdmin(), 0);
+  });
 
-  document.getElementById("c").dispatchEvent(new Event("input"));
-  document.getElementById("videoForm").scrollIntoView({behavior:"smooth"});
-}
-
-function cancelEdit() {
-  editingId = null;
-  document.getElementById("videoForm").reset();
-  document.getElementById("preview").style.display = "none";
-  document.getElementById("formTitle").textContent = "＋ Adicionar vídeo";
-  document.getElementById("saveBtn").textContent = "PUBLICAR VÍDEO";
-  document.getElementById("cancelBtn").style.display = "none";
-}
-
-function deleteVideo(id) {
-  if (!confirm("Tens a certeza de que queres apagar este vídeo?")) return;
-
-  videos = videos.filter(item => item.id !== id);
-
-  if (editingId === id) cancelEdit();
-
-  saveVideos();
-}
-
-document.getElementById("search").addEventListener("input", renderVideos);
-
-renderVideos();
+  checkAdmin();
+})();
 </script>
-
 </body>
-  </html>
+    </html>
