@@ -3,393 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="rating" content="adult">
 <meta name="theme-color" content="#111111">
+<meta name="rating" content="adult">
 <title>MAMBO VAZOUX — Vídeos</title>
 
 <style>
 :root {
-  --bg: #0b0b0d;
-  --panel: #151519;
-  --panel2: #202026;
-  --accent: #ff2457;
-  --text: #f6f6f8;
-  --muted: #9999a5;
-  --border: #292930;
+  --bg:#0b0b0d;
+  --panel:#151519;
+  --panel2:#202026;
+  --accent:#ff2457;
+  --text:#f6f6f8;
+  --muted:#9999a5;
+  --border:#292930;
 }
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-button, input { font: inherit; }
-
-button { cursor: pointer; }
-
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(15,15,18,.97);
-  border-bottom: 1px solid var(--border);
-}
-
-.header-inner {
-  max-width: 1200px;
-  margin: auto;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: -1px;
-  color: var(--accent);
-  white-space: nowrap;
-}
-
-.logo span { color: white; }
-
-.header-search {
-  width: min(430px, 55%);
-}
-
-.header-search input {
-  width: 100%;
-  padding: 12px 15px;
-  background: #202025;
-  color: white;
-  border: 1px solid #35353d;
-  border-radius: 25px;
-  outline: none;
-}
-
-.header-search input:focus {
-  border-color: var(--accent);
-}
-
-.age {
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  padding: 6px 9px;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 12px;
-}
-
-nav {
-  display: flex;
-  gap: 22px;
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 15px 13px;
-  overflow-x: auto;
-}
-
-nav a {
-  color: #c5c5cd;
-  text-decoration: none;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-nav a:hover { color: var(--accent); }
-
-main {
-  max-width: 1200px;
-  margin: auto;
-  padding: 22px 15px;
-}
-
-.hero {
-  background: linear-gradient(110deg, #261018, #17171d 70%);
-  border: 1px solid #42202b;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 25px;
-}
-
-.hero-label {
-  color: var(--accent);
-  font-weight: bold;
-  font-size: 11px;
-  letter-spacing: 2px;
-}
-
-.hero h1 {
-  margin: 9px 0;
-  font-size: clamp(23px, 4vw, 34px);
-}
-
-.hero p {
-  color: #c1c1ca;
-  line-height: 1.5;
-  font-size: 14px;
-  margin-bottom: 0;
-}
-
-.section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin: 25px 0 16px;
-}
-
-.section-heading h2 {
-  margin: 0;
-  font-size: 19px;
-}
-
-.section-heading small { color: var(--muted); }
-
-.filters {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 5px;
-  margin-bottom: 18px;
-}
-
-.filter {
-  background: var(--panel2);
-  color: #d8d8df;
-  border: 1px solid var(--border);
-  padding: 10px 15px;
-  border-radius: 7px;
-  white-space: nowrap;
-  font-size: 13px;
-}
-
-.filter.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 15px;
-}
-
-.card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  overflow: hidden;
-  min-width: 0;
-  transition: border-color .2s, transform .2s;
-}
-
-.card:hover {
-  border-color: #633044;
-  transform: translateY(-2px);
-}
-
-.thumb-wrap {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  background: #222228;
-  overflow: hidden;
-}
-
-.thumb {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.duration {
-  position: absolute;
-  right: 7px;
-  bottom: 7px;
-  background: rgba(0,0,0,.85);
-  padding: 4px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-}
-
-.card-body { padding: 11px; }
-
-.card-title {
-  font-size: 14px;
-  line-height: 1.4;
-  margin: 0 0 8px;
-  overflow-wrap: anywhere;
-}
-
-.card-meta {
-  color: var(--muted);
-  font-size: 11px;
-  margin-bottom: 12px;
-}
-
-.card-actions {
-  display: flex;
-  gap: 7px;
-}
-
-.watch, .favorite {
-  border: 0;
-  border-radius: 6px;
-  padding: 10px 7px;
-  color: white;
-  font-weight: bold;
-}
-
-.watch {
-  flex: 1;
-  background: var(--accent);
-}
-
-.favorite {
-  background: #303038;
-  min-width: 42px;
-}
-
-.favorite.saved { color: #ff668b; }
-
-#empty {
-  display: none;
-  text-align: center;
-  color: var(--muted);
-  padding: 45px 10px;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin: 28px 0;
-}
-
-.page-btn {
-  border: 1px solid var(--border);
-  background: var(--panel2);
-  color: white;
-  border-radius: 6px;
-  padding: 10px 14px;
-}
-
-.page-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.player-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(0,0,0,.94);
-  padding: 18px;
-  align-items: center;
-  justify-content: center;
-}
-
-.player-modal.open { display: flex; }
-
-.player-box {
-  width: min(900px, 100%);
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.player-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 15px;
-}
-
-.player-header h2 {
-  font-size: 15px;
-  margin: 0;
-}
-
-.close-player {
-  background: #292930;
-  color: white;
-  border: 0;
-  border-radius: 6px;
-  padding: 9px 13px;
-}
-
-.player-frame {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-  display: block;
-  background: black;
-}
-
-.player-note {
-  color: var(--muted);
-  font-size: 12px;
-  padding: 12px 15px;
-  line-height: 1.5;
-}
-
-footer {
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  text-align: center;
-  padding: 25px 15px;
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-@media (min-width: 700px) {
-  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-@media (max-width: 500px) {
-  .header-inner { flex-wrap: wrap; }
-  .logo { font-size: 21px; }
-  .header-search {
-    order: 3;
-    width: 100%;
-  }
-  .hero { padding: 19px; }
-  .grid { gap: 10px; }
-  .card-body { padding: 8px; }
-  .card-title { font-size: 12px; }
-  .card-meta { font-size: 10px; }
-  .watch, .favorite { font-size: 11px; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(15,15,18,.97);border-bottom:1px solid var(--border)}
+.header-inner{max-width:1200px;margin:auto;padding:15px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-size:24px;font-weight:900;letter-spacing:-1px;color:var(--accent);white-space:nowrap}
+.logo span{color:white}
+.header-search{width:min(430px,55%)}
+.header-search input{width:100%;padding:12px 15px;background:#202025;color:white;border:1px solid #35353d;border-radius:25px;outline:none}
+.header-search input:focus{border-color:var(--accent)}
+.age{color:var(--accent);border:1px solid var(--accent);padding:6px 9px;border-radius:5px;font-weight:bold;font-size:12px}
+nav{display:flex;gap:22px;max-width:1200px;margin:auto;padding:0 15px 13px;overflow-x:auto}
+nav a{color:#c5c5cd;text-decoration:none;font-size:13px;white-space:nowrap}
+nav a:hover{color:var(--accent)}
+main{max-width:1200px;margin:auto;padding:22px 15px}
+.hero{background:linear-gradient(110deg,#261018,#17171d 70%);border:1px solid #42202b;border-radius:12px;padding:24px;margin-bottom:25px}
+.hero-label{color:var(--accent);font-weight:bold;font-size:11px;letter-spacing:2px}
+.hero h1{margin:9px 0;font-size:clamp(23px,4vw,34px)}
+.hero p{color:#c1c1ca;line-height:1.5;font-size:14px;margin-bottom:0}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:25px 0 16px}
+.section-heading h2{margin:0;font-size:19px}
+.section-heading small{color:var(--muted)}
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:5px;margin-bottom:18px}
+.filter{background:var(--panel2);color:#d8d8df;border:1px solid var(--border);padding:10px 15px;border-radius:7px;white-space:nowrap;font-size:13px}
+.filter.active{background:var(--accent);border-color:var(--accent);color:white}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:9px;overflow:hidden;min-width:0;transition:border-color .2s,transform .2s}
+.card:hover{border-color:#633044;transform:translateY(-2px)}
+.thumb-wrap{position:relative;aspect-ratio:16/10;background:#222228;overflow:hidden}
+.thumb{width:100%;height:100%;object-fit:cover;display:block}
+.duration{position:absolute;right:7px;bottom:7px;background:rgba(0,0,0,.85);padding:4px 6px;border-radius:4px;font-size:11px}
+.card-body{padding:11px}
+.card-title{font-size:14px;line-height:1.4;margin:0 0 8px;overflow-wrap:anywhere}
+.card-meta{color:var(--muted);font-size:11px;margin-bottom:12px}
+.card-actions{display:flex;gap:7px}
+.watch,.favorite{border:0;border-radius:6px;padding:10px 7px;color:white;font-weight:bold}
+.watch{flex:1;background:var(--accent)}
+.favorite{background:#303038;min-width:42px}
+.favorite.saved{color:#ff668b}
+#empty{display:none;text-align:center;color:var(--muted);padding:45px 10px}
+.pagination{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin:28px 0}
+.page-btn{border:1px solid var(--border);background:var(--panel2);color:white;border-radius:6px;padding:10px 14px}
+.page-btn.active{background:var(--accent);border-color:var(--accent)}
+.player-modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.94);padding:18px;align-items:center;justify-content:center}
+.player-modal.open{display:flex}
+.player-box{width:min(900px,100%);background:#111;border:1px solid #333;border-radius:10px;overflow:hidden}
+.player-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 15px}
+.player-header h2{font-size:15px;margin:0}
+.close-player{background:#292930;color:white;border:0;border-radius:6px;padding:9px 13px}
+.player-frame{width:100%;aspect-ratio:16/9;border:0;display:block;background:black}
+.player-note{color:var(--muted);font-size:12px;padding:12px 15px;line-height:1.5}
+footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;padding:25px 15px;font-size:12px;line-height:1.8}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:500px){
+.header-inner{flex-wrap:wrap}.logo{font-size:21px}.header-search{order:3;width:100%}
+.hero{padding:19px}.grid{gap:10px}.card-body{padding:8px}
+.card-title{font-size:12px}.card-meta{font-size:10px}
+.watch,.favorite{font-size:11px}
 }
 </style>
 </head>
-
 <body>
 
 <header class="topbar">
   <div class="header-inner">
     <div class="logo">MAMBO <span>VAZOUX</span></div>
-
     <div class="header-search">
-      <input id="search" type="search"
-        placeholder="Pesquisar vídeos..."
-        autocomplete="off">
+      <input id="search" type="search" placeholder="Pesquisar vídeos..." autocomplete="off">
     </div>
-
     <div class="age">18+</div>
   </div>
-
   <nav>
     <a href="#" data-nav="all">Início</a>
     <a href="#" data-nav="new">Recentes</a>
@@ -399,7 +98,6 @@ footer {
 </header>
 
 <main>
-
   <section class="hero">
     <div class="hero-label">MAMBO VAZOUX</div>
     <h1>Descobre os vídeos</h1>
@@ -408,7 +106,7 @@ footer {
 
   <div class="section-heading">
     <h2 id="section-title">Vídeos recentes</h2>
-    <small id="count">1 vídeo</small>
+    <small id="count">0 vídeos</small>
   </div>
 
   <div class="filters">
@@ -421,24 +119,18 @@ footer {
   <section class="grid" id="grid"></section>
   <div id="empty">Não foram encontrados vídeos.</div>
   <div class="pagination" id="pagination"></div>
-
 </main>
 
-<div class="player-modal" id="playerModal" role="dialog"
-  aria-modal="true" aria-label="Leitor de vídeo">
+<div class="player-modal" id="playerModal" role="dialog" aria-modal="true" aria-label="Leitor de vídeo">
   <div class="player-box">
     <div class="player-header">
       <h2 id="playerTitle">Reprodução</h2>
       <button class="close-player" id="closePlayer">✕ Fechar</button>
     </div>
-    <iframe class="player-frame" id="playerFrame"
-      title="Leitor de vídeo"
-      allow="autoplay; fullscreen; picture-in-picture"
-      allowfullscreen
+    <iframe class="player-frame" id="playerFrame" title="Leitor de vídeo"
+      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
       referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    <div class="player-note">
-      A reprodução depende do serviço externo que aloja o vídeo.
-    </div>
+    <div class="player-note">A reprodução depende do serviço externo que aloja o vídeo.</div>
   </div>
 </div>
 
@@ -450,17 +142,48 @@ footer {
 <script>
 const VIDEOS_PER_PAGE = 6;
 
-const videos = [
+const defaultVideos = [
   {
-    id: "video-teste-1",
-    title: "Vídeo de teste",
-    thumbnail: "https://strm9.uqload.vc/i/03/06033/j046v8p2e9ty_t.jpg",
-    url: "https://uqload.vc/embed-j046v8p2e9ty.html",
-    duration: "",
-    views: 0,
-    date: "2026-10-22",
-    description: "Vídeo de teste do Mambo Vazoux."
+    id:"video-teste-1",
+    title:"Vídeo de teste",
+    thumbnail:"https://strm9.uqload.vc/i/03/06033/j046v8p2e9ty_t.jpg",
+    url:"https://uqload.vc/embed-j046v8p2e9ty.html",
+    duration:"",
+    views:0,
+    date:"2026-10-22",
+    description:"Vídeo de teste do Mambo Vazoux."
   }
+];
+
+function loadAdminVideos() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("mambovideos") || "[]");
+    if (!Array.isArray(saved)) return [];
+
+    return saved
+      .filter(v => v && v.titulo && v.capa && v.video)
+      .map(v => ({
+        id:String(v.id),
+        title:v.titulo,
+        thumbnail:v.capa,
+        url:v.video,
+        duration:v.duration || "",
+        views:Number(v.views) || 0,
+        date:v.data || new Date().toISOString(),
+        description:v.desc || ""
+      }));
+  } catch(error) {
+    console.error("Erro ao carregar vídeos:", error);
+    return [];
+  }
+}
+
+const adminVideos = loadAdminVideos();
+const videos = [
+  ...adminVideos,
+  ...defaultVideos.filter(demo =>
+    !adminVideos.some(v => v.id === demo.id)
+  )
 ];
 
 const grid = document.getElementById("grid");
@@ -480,46 +203,35 @@ function readFavorites() {
     return [];
   }
 }
-
 let favorites = readFavorites();
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   })[char]);
 }
 
 function getFilteredVideos() {
   let list = videos.filter(video =>
-    `${video.title} ${video.description || ""}`
-      .toLowerCase()
-      .includes(query)
+    `${video.title} ${video.description || ""}`.toLowerCase().includes(query)
   );
 
-  if (currentFilter === "fav") {
+  if(currentFilter === "fav") {
     list = list.filter(video => favorites.includes(video.id));
   }
-
-  if (currentFilter === "new") {
-    list = [...list].sort((a, b) => b.date.localeCompare(a.date));
+  if(currentFilter === "new") {
+    list = [...list].sort((a,b) => b.date.localeCompare(a.date));
   }
-
-  if (currentFilter === "popular") {
-    list = [...list].sort((a, b) => b.views - a.views);
+  if(currentFilter === "popular") {
+    list = [...list].sort((a,b) => b.views - a.views);
   }
-
   return list;
 }
 
 function render() {
   const list = getFilteredVideos();
   const totalPages = Math.max(1, Math.ceil(list.length / VIDEOS_PER_PAGE));
-
-  if (currentPage > totalPages) currentPage = totalPages;
+  if(currentPage > totalPages) currentPage = totalPages;
 
   const start = (currentPage - 1) * VIDEOS_PER_PAGE;
   const visible = list.slice(start, start + VIDEOS_PER_PAGE);
@@ -528,69 +240,46 @@ function render() {
     `${list.length} ${list.length === 1 ? "vídeo" : "vídeos"}`;
 
   const titles = {
-    all: "Todos os vídeos",
-    new: "Vídeos recentes",
-    popular: "Vídeos populares",
-    fav: "Os meus favoritos"
+    all:"Todos os vídeos",
+    new:"Vídeos recentes",
+    popular:"Vídeos populares",
+    fav:"Os meus favoritos"
   };
-
-  document.getElementById("section-title").textContent =
-    titles[currentFilter];
+  document.getElementById("section-title").textContent = titles[currentFilter];
 
   grid.innerHTML = visible.map(video => {
     const saved = favorites.includes(video.id);
-
     return `
       <article class="card">
         <div class="thumb-wrap">
-          <img class="thumb"
-            src="${escapeHTML(video.thumbnail)}"
-            alt="${escapeHTML(video.title)}"
-            loading="lazy"
+          <img class="thumb" src="${escapeHTML(video.thumbnail)}"
+            alt="${escapeHTML(video.title)}" loading="lazy"
             onerror="this.style.visibility='hidden'">
-          ${video.duration
-            ? `<span class="duration">${escapeHTML(video.duration)}</span>`
-            : ""}
+          ${video.duration ? `<span class="duration">${escapeHTML(video.duration)}</span>` : ""}
         </div>
-
         <div class="card-body">
           <h3 class="card-title">${escapeHTML(video.title)}</h3>
-          <div class="card-meta">
-            ${Number(video.views).toLocaleString("pt-PT")} visualizações
-          </div>
-
+          <div class="card-meta">${Number(video.views).toLocaleString("pt-PT")} visualizações</div>
           <div class="card-actions">
-            <button class="watch"
-              data-play="${escapeHTML(video.id)}">▶ Assistir</button>
-
-            <button class="favorite ${saved ? "saved" : ""}"
-              data-favorite="${escapeHTML(video.id)}"
-              aria-label="Adicionar aos favoritos">
-              ${saved ? "★" : "☆"}
-            </button>
+            <button class="watch" data-play="${escapeHTML(video.id)}">▶ Assistir</button>
+            <button class="favorite ${saved ? "saved" : ""}" data-favorite="${escapeHTML(video.id)}"
+              aria-label="Adicionar aos favoritos">${saved ? "★" : "☆"}</button>
           </div>
         </div>
-      </article>
-    `;
+      </article>`;
   }).join("");
 
   empty.style.display = list.length ? "none" : "block";
 
-  pagination.innerHTML = Array.from(
-    { length: totalPages },
-    (_, index) => {
-      const page = index + 1;
-      return `
-        <button class="page-btn ${page === currentPage ? "active" : ""}"
-          data-page="${page}">${page}</button>
-      `;
-    }
-  ).join("");
+  pagination.innerHTML = Array.from({length:totalPages}, (_,index) => {
+    const page = index + 1;
+    return `<button class="page-btn ${page === currentPage ? "active" : ""}" data-page="${page}">${page}</button>`;
+  }).join("");
 }
 
 function playVideo(id) {
   const video = videos.find(item => item.id === id);
-  if (!video) return;
+  if(!video) return;
 
   document.getElementById("playerTitle").textContent = video.title;
   frame.src = video.url;
@@ -607,79 +296,66 @@ function closePlayer() {
 function toggleFavorite(id) {
   favorites = favorites.includes(id)
     ? favorites.filter(item => item !== id)
-    : [...favorites, id];
+    : [...favorites,id];
 
-  localStorage.setItem("mv_favorites", JSON.stringify(favorites));
+  localStorage.setItem("mv_favorites",JSON.stringify(favorites));
   render();
 }
 
-grid.addEventListener("click", event => {
+grid.addEventListener("click",event => {
   const playButton = event.target.closest("[data-play]");
   const favoriteButton = event.target.closest("[data-favorite]");
-
-  if (playButton) playVideo(playButton.dataset.play);
-  if (favoriteButton) toggleFavorite(favoriteButton.dataset.favorite);
+  if(playButton) playVideo(playButton.dataset.play);
+  if(favoriteButton) toggleFavorite(favoriteButton.dataset.favorite);
 });
 
-pagination.addEventListener("click", event => {
+pagination.addEventListener("click",event => {
   const button = event.target.closest("[data-page]");
-  if (!button) return;
-
+  if(!button) return;
   currentPage = Number(button.dataset.page);
   render();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({top:0,behavior:"smooth"});
 });
 
-document.getElementById("search").addEventListener("input", event => {
+document.getElementById("search").addEventListener("input",event => {
   query = event.target.value.toLowerCase().trim();
   currentPage = 1;
   render();
 });
 
 document.querySelectorAll("[data-filter]").forEach(button => {
-  button.addEventListener("click", () => {
+  button.addEventListener("click",() => {
     currentFilter = button.dataset.filter;
     currentPage = 1;
-
     document.querySelectorAll(".filter").forEach(item =>
-      item.classList.toggle("active", item === button)
+      item.classList.toggle("active",item === button)
     );
-
     render();
   });
 });
 
 document.querySelectorAll("[data-nav]").forEach(link => {
-  link.addEventListener("click", event => {
+  link.addEventListener("click",event => {
     event.preventDefault();
-
     currentFilter = link.dataset.nav;
     currentPage = 1;
-
     document.querySelectorAll(".filter").forEach(button =>
-      button.classList.toggle(
-        "active",
-        button.dataset.filter === currentFilter
-      )
+      button.classList.toggle("active",button.dataset.filter === currentFilter)
     );
-
     render();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({top:0,behavior:"smooth"});
   });
 });
 
-document.getElementById("closePlayer").addEventListener("click", closePlayer);
-
-modal.addEventListener("click", event => {
-  if (event.target === modal) closePlayer();
+document.getElementById("closePlayer").addEventListener("click",closePlayer);
+modal.addEventListener("click",event => {
+  if(event.target === modal) closePlayer();
 });
-
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") closePlayer();
+document.addEventListener("keydown",event => {
+  if(event.key === "Escape") closePlayer();
 });
 
 render();
 </script>
-
 </body>
- </html>
+  </html>
