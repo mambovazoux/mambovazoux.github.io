@@ -514,10 +514,6 @@ document.querySelectorAll("[data-nav]").forEach(link => {
 
 document.getElementById("closePlayer").addEventListener("click", closePlayer);
 
-modal.addEventListener("click", event => {
-  if (event.target === modal) closePlayer();
-});
-
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closePlayer();
 });
