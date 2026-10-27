@@ -81,6 +81,27 @@ footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;p
 </head>
 <body>
 
+<div id="ageGate" style="position:fixed;inset:0;z-index:99999;background:#0b0b0d;color:#fff;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-family:Arial,sans-serif">
+  <div style="width:100%;max-width:380px">
+    <div style="font-size:30px;font-weight:bold;margin-bottom:12px">
+      MAMBO <span style="color:#ff2457">VAZOUX</span>
+    </div>
+    <div style="font-size:40px;margin:15px">🔞</div>
+    <h2>Confirma a tua idade</h2>
+    <p>Este site é exclusivo para pessoas com 18 anos ou mais.</p>
+
+    <button id="ageYes" style="width:100%;padding:15px;margin-top:16px;background:#ff2457;color:#fff;border:0;border-radius:8px;font-weight:bold">
+      SIM, TENHO 18 ANOS OU MAIS
+    </button>
+
+    <button id="ageNo" style="width:100%;padding:15px;margin-top:10px;background:#25252b;color:#fff;border:1px solid #444;border-radius:8px">
+      NÃO, SOU MENOR DE 18
+    </button>
+
+    <p id="ageMessage" style="margin-top:18px;color:#ff758f"></p>
+  </div>
+</div>
+
 <header class="topbar">
   <div class="header-inner">
     <div class="logo">MAMBO <span>VAZOUX</span></div>
@@ -159,8 +180,9 @@ footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;p
 </div>
 
 <footer>
-  MAMBO VAZOUX · Conteúdo destinado exclusivamente a adultos com 18 anos ou mais.<br>
-  Publica apenas vídeos que tens autorização legal para distribuir.
+  MAMBO VAZOUX · 18+<br>
+  🔒 A tua privacidade e segurança são importantes para nós.<br>
+  Acesso exclusivo a maiores de 18 anos.
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -520,5 +542,31 @@ document.addEventListener("keydown", event => {
 
 loadVideos();
 </script>
+
+<script>
+(function () {
+  const gate = document.getElementById("ageGate");
+  const yes = document.getElementById("ageYes");
+  const no = document.getElementById("ageNo");
+  const message = document.getElementById("ageMessage");
+
+  if (localStorage.getItem("mambo_age_confirmed") === "yes") {
+    gate.style.display = "none";
+  }
+
+  yes.addEventListener("click", function () {
+    localStorage.setItem("mambo_age_confirmed", "yes");
+    gate.style.display = "none";
+  });
+
+  no.addEventListener("click", function () {
+    message.textContent =
+      "Acesso recusado. Este site é exclusivo para maiores de 18 anos.";
+    yes.style.display = "none";
+    no.disabled = true;
+  });
+})();
+</script>
+
 </body>
   </html>
