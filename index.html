@@ -415,8 +415,13 @@ function playVideo(id) {
   }
 
   if (video.downloadURL) {
-    downloadLink.href = video.downloadURL;
-    downloadLink.style.display = "inline-block";
+  const safeName = video.title
+    .replace(/[\\/:*?"<>|]/g, "")
+    .trim() || "video";
+
+  downloadLink.href = video.downloadURL;
+  downloadLink.setAttribute("download", safeName + ".mp4");
+  downloadLink.style.display = "inline-block";
   }
 
   modal.classList.add("open");
