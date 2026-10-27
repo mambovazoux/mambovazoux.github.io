@@ -125,12 +125,36 @@ footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;p
   <div class="player-box">
     <div class="player-header">
       <h2 id="playerTitle">Reprodução</h2>
-      <button class="close-player" id="closePlayer">✕ Fechar</button>
+      <button class="close-player" id="closePlayer" type="button">✕ Fechar</button>
     </div>
-    <iframe class="player-frame" id="playerFrame" title="Leitor de vídeo"
-      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
-      referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    <div class="player-note">A reprodução depende do serviço externo que aloja o vídeo.</div>
+
+    <iframe
+      class="player-frame"
+      id="playerFrame"
+      title="Leitor de vídeo"
+      style="display:none"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+
+    <video
+      id="videoPlayer"
+      controls
+      playsinline
+      style="display:none;width:100%;aspect-ratio:16/9;background:#000">
+    </video>
+
+    <a
+      id="downloadVideo"
+      href=""
+      target="_blank"
+      rel="noopener noreferrer"
+      style="display:none;margin-top:12px">
+      Descarregar vídeo
+    </a>
+
+    <div class="player-note">A reprodução depende do serviço que aloja o vídeo.</div>
   </div>
 </div>
 
@@ -139,62 +163,28 @@ footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;p
   Publica apenas vídeos que tens autorização legal para distribuir.
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = "https://lahrudhqrzhoqccycfwf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_bPGqvvV5AeXRTlSyRhwQYg_prG0Y-pg";
+const BUCKET = "mambo-videos";
 const VIDEOS_PER_PAGE = 6;
 
-const defaultVideos = [
-  {
-    id:"video-teste-1",
-    title:"Vídeo de teste",
-    thumbnail:"https://strm9.uqload.vc/i/03/06033/j046v8p2e9ty_t.jpg",
-    url:"https://uqload.vc/embed-j046v8p2e9ty.html",
-    duration:"",
-    views:0,
-    date:"2026-10-22",
-    description:"Vídeo de teste do Mambo Vazoux."
-  }
-];
-
-function loadAdminVideos() {
-  try {
-    const saved = JSON.parse(localStorage.getItem("mambovideos") || "[]");
-    if (!Array.isArray(saved)) return [];
-
-    return saved
-      .filter(v => v && v.titulo && v.capa && v.video)
-      .map(v => ({
-        id:String(v.id),
-        title:v.titulo,
-        thumbnail:v.capa,
-        url:v.video,
-        duration:v.duration || "",
-        views:Number(v.views) || 0,
-        date:v.data || new Date().toISOString(),
-        description:v.desc || ""
-      }));
-  } catch(error) {
-    console.error("Erro ao carregar vídeos:", error);
-    return [];
-  }
-}
-
-const adminVideos = loadAdminVideos();
-const videos = [
-  ...adminVideos,
-  ...defaultVideos.filter(demo =>
-    !adminVideos.some(v => v.id === demo.id)
-  )
-];
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const grid = document.getElementById("grid");
 const empty = document.getElementById("empty");
 const pagination = document.getElementById("pagination");
 const modal = document.getElementById("playerModal");
 const frame = document.getElementById("playerFrame");
+const player = document.getElementById("videoPlayer");
+const downloadLink = document.getElementById("downloadVideo");
 
+let videos = [];
 let currentPage = 1;
 let currentFilter = "all";
 let query = "";
+let favorites = readFavorites();
 
 function readFavorites() {
   try {
@@ -203,35 +193,127 @@ function readFavorites() {
     return [];
   }
 }
-let favorites = readFavorites();
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
   })[char]);
+}
+
+function isExternalURL(value) {
+  return /^https?:\/\//i.test(String(value || ""));
+}
+
+async function getStorageURL(path, download = false) {
+  if (!path) return "";
+
+  if (isExternalURL(path)) return path;
+
+  const cleanPath = String(path).replace(/^\/+/, "");
+  const options = download ? { download: true } : {};
+
+  const { data, error } = await db.storage
+    .from(BUCKET)
+    .createSignedUrl(cleanPath, 3600, options);
+
+  if (error) {
+    console.error("Erro ao gerar URL:", error.message);
+    return "";
+  }
+
+  return data?.signedUrl || "";
+}
+
+async function loadVideos() {
+  grid.innerHTML = "";
+  empty.style.display = "none";
+
+  const loading = document.createElement("p");
+  loading.textContent = "A carregar vídeos...";
+  loading.style.color = "#9999a5";
+  grid.appendChild(loading);
+
+  try {
+    const { data, error } = await db
+      .from("videos")
+      .select("id,title,description,thumbnail_url,video_url,storage_path,created_at,views,category,duration")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    const publishedVideos = await Promise.all((data || []).map(async item => {
+      const videoPath = item.storage_path || item.video_url || "";
+      const coverPath = item.thumbnail_url || "";
+
+      const [videoURL, coverURL, downloadURL] = await Promise.all([
+        getStorageURL(videoPath),
+        getStorageURL(coverPath),
+        getStorageURL(videoPath, true)
+      ]);
+
+      return {
+        id: String(item.id),
+        title: item.title || "Vídeo sem título",
+        description: item.description || "",
+        thumbnail: coverURL,
+        url: videoURL,
+        downloadURL,
+        duration: item.duration || "",
+        views: Number(item.views) || 0,
+        date: item.created_at || "",
+        category: item.category || "Geral"
+      };
+    }));
+
+    videos = publishedVideos.filter(video => video.url);
+    currentPage = 1;
+    render();
+
+  } catch (error) {
+    console.error("Erro ao carregar vídeos:", error);
+
+    grid.innerHTML = "";
+    empty.style.display = "block";
+    empty.textContent =
+      "Não foi possível carregar os vídeos. Verifica a ligação ao Supabase e as permissões da tabela e do armazenamento.";
+
+    document.getElementById("count").textContent = "Erro ao carregar";
+  }
 }
 
 function getFilteredVideos() {
   let list = videos.filter(video =>
-    `${video.title} ${video.description || ""}`.toLowerCase().includes(query)
+    `${video.title} ${video.description} ${video.category}`
+      .toLowerCase()
+      .includes(query)
   );
 
-  if(currentFilter === "fav") {
+  if (currentFilter === "fav") {
     list = list.filter(video => favorites.includes(video.id));
   }
-  if(currentFilter === "new") {
-    list = [...list].sort((a,b) => b.date.localeCompare(a.date));
+
+  if (currentFilter === "new") {
+    list = [...list].sort((a, b) =>
+      new Date(b.date || 0) - new Date(a.date || 0)
+    );
   }
-  if(currentFilter === "popular") {
-    list = [...list].sort((a,b) => b.views - a.views);
+
+  if (currentFilter === "popular") {
+    list = [...list].sort((a, b) => b.views - a.views);
   }
+
   return list;
 }
 
 function render() {
   const list = getFilteredVideos();
   const totalPages = Math.max(1, Math.ceil(list.length / VIDEOS_PER_PAGE));
-  if(currentPage > totalPages) currentPage = totalPages;
+
+  if (currentPage > totalPages) currentPage = totalPages;
 
   const start = (currentPage - 1) * VIDEOS_PER_PAGE;
   const visible = list.slice(start, start + VIDEOS_PER_PAGE);
@@ -240,122 +322,202 @@ function render() {
     `${list.length} ${list.length === 1 ? "vídeo" : "vídeos"}`;
 
   const titles = {
-    all:"Todos os vídeos",
-    new:"Vídeos recentes",
-    popular:"Vídeos populares",
-    fav:"Os meus favoritos"
+    all: "Todos os vídeos",
+    new: "Vídeos recentes",
+    popular: "Vídeos populares",
+    fav: "Os meus favoritos"
   };
+
   document.getElementById("section-title").textContent = titles[currentFilter];
 
   grid.innerHTML = visible.map(video => {
     const saved = favorites.includes(video.id);
+
     return `
       <article class="card">
         <div class="thumb-wrap">
-          <img class="thumb" src="${escapeHTML(video.thumbnail)}"
-            alt="${escapeHTML(video.title)}" loading="lazy"
-            onerror="this.style.visibility='hidden'">
-          ${video.duration ? `<span class="duration">${escapeHTML(video.duration)}</span>` : ""}
+          ${video.thumbnail ? `
+            <img class="thumb"
+              src="${escapeHTML(video.thumbnail)}"
+              alt="${escapeHTML(video.title)}"
+              loading="lazy"
+              onerror="this.style.visibility='hidden'">
+          ` : ""}
+
+          ${video.duration ? `
+            <span class="duration">${escapeHTML(video.duration)}</span>
+          ` : ""}
         </div>
+
         <div class="card-body">
           <h3 class="card-title">${escapeHTML(video.title)}</h3>
-          <div class="card-meta">${Number(video.views).toLocaleString("pt-PT")} visualizações</div>
+
+          <div class="card-meta">
+            ${video.views.toLocaleString("pt-PT")} visualizações
+          </div>
+
           <div class="card-actions">
-            <button class="watch" data-play="${escapeHTML(video.id)}">▶ Assistir</button>
-            <button class="favorite ${saved ? "saved" : ""}" data-favorite="${escapeHTML(video.id)}"
-              aria-label="Adicionar aos favoritos">${saved ? "★" : "☆"}</button>
+            <button class="watch" data-play="${escapeHTML(video.id)}">
+              ▶ Assistir
+            </button>
+
+            <button class="favorite ${saved ? "saved" : ""}"
+              data-favorite="${escapeHTML(video.id)}"
+              aria-label="Adicionar aos favoritos">
+              ${saved ? "★" : "☆"}
+            </button>
           </div>
         </div>
-      </article>`;
+      </article>
+    `;
   }).join("");
 
   empty.style.display = list.length ? "none" : "block";
 
-  pagination.innerHTML = Array.from({length:totalPages}, (_,index) => {
+  pagination.innerHTML = Array.from({ length: totalPages }, (_, index) => {
     const page = index + 1;
-    return `<button class="page-btn ${page === currentPage ? "active" : ""}" data-page="${page}">${page}</button>`;
+
+    return `
+      <button class="page-btn ${page === currentPage ? "active" : ""}"
+        data-page="${page}">${page}</button>
+    `;
   }).join("");
 }
 
 function playVideo(id) {
   const video = videos.find(item => item.id === id);
-  if(!video) return;
+  if (!video) return;
 
   document.getElementById("playerTitle").textContent = video.title;
-  frame.src = video.url;
+
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+
+  frame.removeAttribute("src");
+  frame.style.display = "none";
+  player.style.display = "none";
+
+  downloadLink.style.display = "none";
+  downloadLink.removeAttribute("href");
+
+  if (video.url && isExternalURL(video.url)) {
+    if (/\.(mp4|webm|ogg|m4v)(\?.*)?$/i.test(video.url)) {
+      player.src = video.url;
+      player.style.display = "block";
+    } else {
+      frame.src = video.url;
+      frame.style.display = "block";
+    }
+  } else if (video.url) {
+    player.src = video.url;
+    player.style.display = "block";
+  }
+
+  if (video.downloadURL) {
+    downloadLink.href = video.downloadURL;
+    downloadLink.style.display = "inline-block";
+  }
+
   modal.classList.add("open");
   document.body.style.overflow = "hidden";
 }
 
 function closePlayer() {
   modal.classList.remove("open");
-  frame.src = "";
+
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+
+  frame.removeAttribute("src");
+  frame.style.display = "none";
+  player.style.display = "none";
+
+  downloadLink.style.display = "none";
+  downloadLink.removeAttribute("href");
+
   document.body.style.overflow = "";
 }
 
 function toggleFavorite(id) {
   favorites = favorites.includes(id)
     ? favorites.filter(item => item !== id)
-    : [...favorites,id];
+    : [...favorites, id];
 
-  localStorage.setItem("mv_favorites",JSON.stringify(favorites));
+  localStorage.setItem("mv_favorites", JSON.stringify(favorites));
   render();
 }
 
-grid.addEventListener("click",event => {
+grid.addEventListener("click", event => {
   const playButton = event.target.closest("[data-play]");
   const favoriteButton = event.target.closest("[data-favorite]");
-  if(playButton) playVideo(playButton.dataset.play);
-  if(favoriteButton) toggleFavorite(favoriteButton.dataset.favorite);
+
+  if (playButton) playVideo(playButton.dataset.play);
+
+  if (favoriteButton) {
+    toggleFavorite(favoriteButton.dataset.favorite);
+  }
 });
 
-pagination.addEventListener("click",event => {
+pagination.addEventListener("click", event => {
   const button = event.target.closest("[data-page]");
-  if(!button) return;
+  if (!button) return;
+
   currentPage = Number(button.dataset.page);
   render();
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-document.getElementById("search").addEventListener("input",event => {
+document.getElementById("search").addEventListener("input", event => {
   query = event.target.value.toLowerCase().trim();
   currentPage = 1;
   render();
 });
 
 document.querySelectorAll("[data-filter]").forEach(button => {
-  button.addEventListener("click",() => {
+  button.addEventListener("click", () => {
     currentFilter = button.dataset.filter;
     currentPage = 1;
-    document.querySelectorAll(".filter").forEach(item =>
-      item.classList.toggle("active",item === button)
-    );
+
+    document.querySelectorAll(".filter").forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
     render();
   });
 });
 
 document.querySelectorAll("[data-nav]").forEach(link => {
-  link.addEventListener("click",event => {
+  link.addEventListener("click", event => {
     event.preventDefault();
+
     currentFilter = link.dataset.nav;
     currentPage = 1;
-    document.querySelectorAll(".filter").forEach(button =>
-      button.classList.toggle("active",button.dataset.filter === currentFilter)
-    );
+
+    document.querySelectorAll(".filter").forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.filter === currentFilter
+      );
+    });
+
     render();
-    window.scrollTo({top:0,behavior:"smooth"});
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
 
-document.getElementById("closePlayer").addEventListener("click",closePlayer);
-modal.addEventListener("click",event => {
-  if(event.target === modal) closePlayer();
-});
-document.addEventListener("keydown",event => {
-  if(event.key === "Escape") closePlayer();
+document.getElementById("closePlayer").addEventListener("click", closePlayer);
+
+modal.addEventListener("click", event => {
+  if (event.target === modal) closePlayer();
 });
 
-render();
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closePlayer();
+});
+
+loadVideos();
 </script>
 </body>
   </html>
