@@ -441,9 +441,9 @@ function playVideo(id) {
     .trim() || "video";
 
   downloadLink.href = video.downloadURL;
-  downloadLink.setAttribute("download", safeName + ".mp4");
-  downloadLink.style.display = "inline-block";
-  }
+downloadLink.setAttribute("download", safeName + ".mp4");
+downloadLink.setAttribute("target", "_blank");
+downloadLink.style.display = "inline-block";
 
   modal.classList.add("open");
   document.body.style.overflow = "hidden";
