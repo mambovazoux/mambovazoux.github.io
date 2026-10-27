@@ -442,36 +442,9 @@ function playVideo(id) {
 
 downloadLink.href = video.downloadURL;
 downloadLink.setAttribute("download", safeName + ".mp4");
-downloadLink.removeAttribute("target");
 downloadLink.style.display = "inline-block";
-
-downloadLink.onclick = async function (event) {
-  event.preventDefault();
-
-  try {
-    const response = await fetch(video.downloadURL);
-
-    if (!response.ok) {
-      throw new Error("Falha ao descarregar");
-    }
-
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const tempLink = document.createElement("a");
-
-    tempLink.href = url;
-    tempLink.download = safeName + ".mp4";
-    document.body.appendChild(tempLink);
-    tempLink.click();
-    tempLink.remove();
-
-    setTimeout(() => URL.revokeObjectURL(url), 60000);
-  } catch (error) {
-    alert("Não foi possível descarregar com o título. Verifica a ligação e tenta novamente.");
-  }
-};
-
-  modal.classList.add("open");
+  
+    modal.classList.add("open");
   document.body.style.overflow = "hidden";
 }
 
