@@ -547,8 +547,23 @@ button:disabled{opacity:.5;cursor:wait}
       info.className = "card-info";
       info.innerHTML = `
         <div class="card-title">${escapeHTML(item.title)}</div>
+        <div 
         <div class="card-desc">${escapeHTML(item.description || "Sem descrição")}</div>
+
+        <label>👁️ Visualizações</label>
+        <input
+          type="number"
+          min="0"
+          step="1"
+          value="${Math.max(0, Number(item.views) || 0)}"
+          data-views="${escapeHTML(item.id)}"
+        >
+        <button class="primary" data-save-views="${escapeHTML(item.id)}">
+          GUARDAR VIEWS
+        </button>
+
         <div class="actions">
+
           <button class="secondary" data-edit="${escapeHTML(item.id)}">Editar</button>
           <button class="delete" data-delete="${escapeHTML(item.id)}">Apagar</button>
         </div>`;
