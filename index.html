@@ -234,7 +234,13 @@ async function getStorageURL(path, download = false) {
 
   if (isExternalURL(path)) return path;
 
-  const cleanPath = String(path).replace(/^\/+/, "");
+  let cleanPath = String(path).replace(/^\/+/, "");
+
+  // Remove o prefixo "videos/" se já estiver incluído no caminho.
+  if (cleanPath.startsWith("videos/")) {
+    cleanPath = cleanPath.slice("videos/".length);
+  }
+
   const options = download ? { download: true } : {};
 
   const { data, error } = await db.storage
@@ -242,7 +248,7 @@ async function getStorageURL(path, download = false) {
     .createSignedUrl(cleanPath, 3600, options);
 
   if (error) {
-    console.error("Erro ao gerar URL:", error.message);
+    console.error("Erro ao gerar URL:", error.message, cleanPath);
     return "";
   }
 
