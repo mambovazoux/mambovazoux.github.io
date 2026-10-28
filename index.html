@@ -80,12 +80,8 @@ footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;p
 </style>
 </head>
 <body>
-
-  <div style="background:#ff2457;color:white;padding:15px;text-align:center">
-  MAMBO VAZOUX — TESTE DO SITE
-  </div>
-
-<div id="ageGate" style="position:fixed;inset:0;z-index:99999;background:#0b0b0d;color:#fff;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-family:Arial,sans-serif">
+  
+  <div id="ageGate" style="position:fixed;inset:0;z-index:99999;background:#0b0b0d;color:#fff;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-family:Arial,sans-serif">
   <div style="width:100%;max-width:380px">
     <div style="font-size:30px;font-weight:bold;margin-bottom:12px">
       MAMBO <span style="color:#ff2457">VAZOUX</span>
@@ -277,7 +273,6 @@ async function getStorageURL(path, download = false) {
 }
 
 async function loadVideos() {
-  alert("O JavaScript está a funcionar!");
   grid.innerHTML = "";
   empty.style.display = "none";
 
