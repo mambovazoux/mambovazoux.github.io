@@ -238,7 +238,9 @@ async function getStorageURL(path, download = false) {
   if (isExternalURL(path)) return path;
 
   const originalPath = String(path).replace(/^\/+/, "");
-  const options = download ? { download: true } : {};
+  const options = download
+  ? { download: "video" }
+  : {};
 
   // Primeiro tenta o caminho guardado na tabela.
   let result = await db.storage
