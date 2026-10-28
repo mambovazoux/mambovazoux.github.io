@@ -442,6 +442,7 @@ function playVideo(id) {
 
   downloadLink.style.display = "none";
   downloadLink.removeAttribute("href");
+  downloadLink.removeAttribute("download");
 
   if (video.url) {
     if (/\.(mp4|webm|ogg|m4v)(\?.*)?$/i.test(video.url)) {
@@ -454,7 +455,7 @@ function playVideo(id) {
   }
 
   if (video.downloadURL) {
-    const safeName = video.title
+    const safeName = (video.title || "video")
       .replace(/[\\/:*?"<>|]/g, "")
       .trim() || "video";
 
