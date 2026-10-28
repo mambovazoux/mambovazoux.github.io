@@ -454,15 +454,38 @@ function playVideo(id) {
     }
   }
 
-  if (video.downloadURL) {
-    const safeName = (video.title || "video")
-      .replace(/[\\/:*?"<>|]/g, "")
-      .trim() || "video";
+ if (video.downloadURL) {
+  const safeName = (video.title || "video")
+    .replace(/[\\/:*?"<>|]/g, "")
+    .trim() || "video";
 
-    downloadLink.href = video.downloadURL;
-    downloadLink.setAttribute("download", safeName + ".mp4");
-    downloadLink.style.display = "inline-block";
-  }
+  downloadLink.href = video.downloadURL;
+  downloadLink.removeAttribute("download");
+  downloadLink.style.display = "inline-block";
+
+  downloadLink.onclick = async function (event) {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(video.downloadURL);
+      if (!response.ok) throw new Error("Falha no download");
+
+      const blob = await response.blob();
+      const blobURL = URL.createObjectURL(blob);
+      const tempLink = document.createElement("a");
+
+      tempLink.href = blobURL;
+      tempLink.download = safeName + ".mp4";
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      tempLink.remove();
+
+      setTimeout(() => URL.revokeObjectURL(blobURL), 60000);
+    } catch (error) {
+      alert("Não foi possível renomear o download. Verifica as permissões do Supabase.");
+    }
+  };
+}
 
   modal.classList.add("open");
   document.body.style.overflow = "hidden";
