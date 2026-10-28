@@ -289,33 +289,68 @@ async function loadVideos() {
 
     if (error) throw error;
 
-    const publishedVideos = await Promise.all((data || []).map(async item => {
-      const videoPath = item.storage_path || item.video_url || "";
-      const coverPath = item.thumbnail_url || "";
+    const items = data || [];
 
-      const [videoURL, coverURL, downloadURL] = await Promise.all([
-        getStorageURL(videoPath),
-        getStorageURL(coverPath),
-        getStorageURL(videoPath, item.title || "video")
-      ]);
+    const publishedVideos = await Promise.all(
+      items.map(async item => {
+        const videoPath = item.storage_path || item.video_url || "";
+        const coverPath = item.thumbnail_url || "";
 
-      return {
-        id: String(item.id),
-        title: item.title || "Vídeo sem título",
-        description: item.description || "",
-        thumbnail: coverURL,
-        url: videoURL,
-        downloadURL,
-        duration: item.duration || "",
-        views: Number(item.views) || 0,
-        date: item.created_at || "",
-        category: item.category || "Geral"
-      };
-    }));
+        let videoURL = "";
+        let coverURL = "";
+        let downloadURL = "";
+
+        try {
+          videoURL = await getStorageURL(videoPath);
+        } catch (e) {
+          console.warn("Erro no vídeo:", item.title, e);
+        }
+
+        try {
+          coverURL = await getStorageURL(coverPath);
+        } catch (e) {
+          console.warn("Erro na capa:", item.title, e);
+        }
+
+        try {
+          downloadURL = await getStorageURL(
+            videoPath,
+            item.title || "video"
+          );
+        } catch (e) {
+          console.warn("Erro no download:", item.title, e);
+        }
+
+        return {
+          id: String(item.id),
+          title: item.title || "Vídeo sem título",
+          description: item.description || "",
+          thumbnail: coverURL,
+          url: videoURL,
+          downloadURL,
+          duration: item.duration || "",
+          views: Number(item.views) || 0,
+          date: item.created_at || "",
+          category: item.category || "Geral"
+        };
+      })
+    );
 
     videos = publishedVideos.filter(video => video.url);
     currentPage = 1;
     render();
+
+    if (videos.length === 0) {
+      grid.innerHTML = "";
+      empty.style.display = "block";
+      empty.textContent =
+        items.length === 0
+          ? "Ainda não existem vídeos publicados."
+          : "Os vídeos foram encontrados, mas não foi possível obter os links. Verifica o armazenamento do Supabase.";
+    }
+
+    document.getElementById("count").textContent =
+      `${videos.length} vídeos`;
 
   } catch (error) {
     console.error("Erro ao carregar vídeos:", error);
@@ -323,9 +358,11 @@ async function loadVideos() {
     grid.innerHTML = "";
     empty.style.display = "block";
     empty.textContent =
-      "Não foi possível carregar os vídeos. Verifica a ligação ao Supabase e as permissões da tabela e do armazenamento.";
+      "Erro ao carregar vídeos: " +
+      (error.message || "Verifica a ligação ao Supabase.");
 
-    document.getElementById("count").textContent = "Erro ao carregar";
+    document.getElementById("count").textContent =
+      "Erro ao carregar";
   }
 }
 
