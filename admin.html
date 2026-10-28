@@ -501,7 +501,7 @@ button:disabled{opacity:.5;cursor:wait}
     message("A carregar publicações...");
     const { data, error } = await client
       .from("videos")
-      .select("id,title,description,thumbnail_url,video_url,storage_path,created_at")
+      .select("id,title,description,thumbnail_url,video_url,storage_path,created_at,views")
       .order("created_at", { ascending: false });
 
     if (error) {
