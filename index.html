@@ -291,6 +291,121 @@ const player = document.getElementById("videoPlayer");
 const downloadLink = document.getElementById("downloadVideo");
 
 let videos = [];
+
+let currentVideoId = null;
+
+async function loadComments(videoId) {
+  const list = document.getElementById("commentsList");
+  const status = document.getElementById("commentStatus");
+
+  list.replaceChildren();
+  const loading = document.createElement("p");
+  loading.className = "comment-status";
+  loading.textContent = "A carregar comentários...";
+  list.appendChild(loading);
+
+  const { data, error } = await db
+    .from("comments")
+    .select("id,name,comment,created_at")
+    .eq("video_id", videoId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    list.replaceChildren();
+    const errorMessage = document.createElement("p");
+    errorMessage.className = "comment-status";
+    errorMessage.textContent = "Não foi possível carregar os comentários.";
+    list.appendChild(errorMessage);
+    console.error("Erro ao carregar comentários:", error.message);
+    return;
+  }
+
+  list.replaceChildren();
+
+  if (!data || data.length === 0) {
+    const message = document.createElement("p");
+    message.className = "comment-status";
+    message.textContent = "Ainda não existem comentários. Sê o primeiro!";
+    list.appendChild(message);
+    return;
+  }
+
+  for (const item of data) {
+    const card = document.createElement("article");
+    card.className = "comment-item";
+
+    const author = document.createElement("div");
+    author.className = "comment-author";
+    author.textContent = item.name || "Visitante";
+
+    const date = document.createElement("div");
+    date.className = "comment-date";
+
+    const parsedDate = item.created_at
+      ? new Date(item.created_at)
+      : null;
+
+    date.textContent =
+      parsedDate && !Number.isNaN(parsedDate.getTime())
+        ? parsedDate.toLocaleString("pt-PT")
+        : "";
+
+    const content = document.createElement("div");
+    content.className = "comment-text";
+    content.textContent = item.comment || "";
+
+    card.append(author, date, content);
+    list.appendChild(card);
+  }
+}
+
+document.getElementById("commentForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const nameInput = document.getElementById("commentName");
+  const textInput = document.getElementById("commentText");
+  const status = document.getElementById("commentStatus");
+  const button = document.getElementById("commentSubmit");
+
+  const name = nameInput.value.trim();
+  const comment = textInput.value.trim();
+
+  if (!currentVideoId) {
+    status.textContent = "Abre primeiro um vídeo.";
+    return;
+  }
+
+  if (!name || name.length > 40 || !comment || comment.length > 1000) {
+    status.textContent = "Confirma o nome e o comentário.";
+    return;
+  }
+
+  button.disabled = true;
+  status.textContent = "A publicar...";
+
+  try {
+    const { error } = await db.from("comments").insert({
+      video_id: currentVideoId,
+      name,
+      comment,
+      author_name: name,
+      content: comment
+    });
+
+    if (error) throw error;
+
+    textInput.value = "";
+    status.textContent = "Comentário publicado!";
+    await loadComments(currentVideoId);
+  } catch (error) {
+    console.error("Erro ao publicar comentário:", error);
+    status.textContent =
+      "Não foi possível publicar. Confirma a ligação e as permissões do Supabase.";
+  } finally {
+    button.disabled = false;
+  }
+});
+
 let currentPage = 1;
 let currentFilter = "all";
 let query = "";
