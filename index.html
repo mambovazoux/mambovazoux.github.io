@@ -77,6 +77,65 @@ footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;p
 .card-title{font-size:12px}.card-meta{font-size:10px}
 .watch,.favorite{font-size:11px}
 }
+  
+.comments-panel {
+  padding: 15px;
+  border-top: 1px solid #292930;
+  max-height: 45vh;
+  overflow-y: auto;
+}
+.comments-panel h3 {
+  margin: 0 0 14px;
+  font-size: 17px;
+}
+.comment-form input,
+.comment-form textarea {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  border: 1px solid #35353d;
+  border-radius: 8px;
+  background: #202026;
+  color: white;
+}
+.comment-form textarea {
+  min-height: 85px;
+  resize: vertical;
+}
+.comment-submit {
+  width: 100%;
+  padding: 12px;
+  background: #ff2457;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.comment-status {
+  color: #ff8ba6;
+  font-size: 13px;
+  margin: 10px 0;
+}
+.comment-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #292930;
+  overflow-wrap: anywhere;
+}
+.comment-author {
+  font-weight: bold;
+  font-size: 13px;
+}
+.comment-date {
+  color: #9999a5;
+  font-size: 11px;
+  margin: 4px 0 8px;
+}
+.comment-text {
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
 </style>
 </head>
 <body>
