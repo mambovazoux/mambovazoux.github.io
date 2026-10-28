@@ -443,7 +443,7 @@ function playVideo(id) {
   downloadLink.style.display = "none";
   downloadLink.removeAttribute("href");
 
-  if (video.url && isExternalURL(video.url)) {
+  if (video.url) {
     if (/\.(mp4|webm|ogg|m4v)(\?.*)?$/i.test(video.url)) {
       player.src = video.url;
       player.style.display = "block";
@@ -451,21 +451,19 @@ function playVideo(id) {
       frame.src = video.url;
       frame.style.display = "block";
     }
-  } else if (video.url) {
-    player.src = video.url;
-    player.style.display = "block";
   }
 
   if (video.downloadURL) {
-  const safeName = video.title
-    .replace(/[\\/:*?"<>|]/g, "")
-    .trim() || "video";
+    const safeName = video.title
+      .replace(/[\\/:*?"<>|]/g, "")
+      .trim() || "video";
 
-downloadLink.href = video.downloadURL;
-downloadLink.setAttribute("download", safeName + ".mp4");
-downloadLink.style.display = "inline-block";
-  
-    modal.classList.add("open");
+    downloadLink.href = video.downloadURL;
+    downloadLink.setAttribute("download", safeName + ".mp4");
+    downloadLink.style.display = "inline-block";
+  }
+
+  modal.classList.add("open");
   document.body.style.overflow = "hidden";
 }
 
