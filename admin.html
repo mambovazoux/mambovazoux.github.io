@@ -509,8 +509,9 @@ button:disabled{opacity:.5;cursor:wait}
       return;
     }
 
-    records = data || [];
+        records = data || [];
     renderVideos();
+    await loadCommentVideoOptions();
     message("Total de publicações: " + records.length);
   }
 
