@@ -672,6 +672,12 @@ function render() {
 function playVideo(id) {
   const video = videos.find(item => item.id === id);
   if (!video) return;
+    currentVideoId = video.id;
+  document.getElementById("commentStatus").textContent = "";
+  document.getElementById("commentName").value =
+    localStorage.getItem("mv_comment_name") || "";
+
+  loadComments(currentVideoId);
 
   document.getElementById("playerTitle").textContent = video.title;
 
