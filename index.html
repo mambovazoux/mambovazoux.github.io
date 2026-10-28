@@ -460,10 +460,36 @@ function playVideo(id) {
     .trim() || "video";
 
   downloadLink.href = video.downloadURL;
-  downloadLink.removeAttribute("target");
   downloadLink.setAttribute("download", safeName + ".mp4");
   downloadLink.style.display = "inline-block";
-  downloadLink.onclick = null;
+
+  downloadLink.onclick = async function (event) {
+    event.preventDefault();
+
+    if (downloadLink.dataset.downloading === "true") return;
+    downloadLink.dataset.downloading = "true";
+
+    try {
+      const response = await fetch(video.downloadURL);
+      if (!response.ok) throw new Error("Download falhou");
+
+      const blob = await response.blob();
+      const blobURL = URL.createObjectURL(blob);
+      const tempLink = document.createElement("a");
+
+      tempLink.href = blobURL;
+      tempLink.download = safeName + ".mp4";
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      tempLink.remove();
+
+      setTimeout(() => URL.revokeObjectURL(blobURL), 60000);
+    } catch (error) {
+      alert("Não foi possível descarregar. Verifica as permissões CORS do Supabase.");
+    } finally {
+      downloadLink.dataset.downloading = "false";
+    }
+  };
 }
 
   modal.classList.add("open");
