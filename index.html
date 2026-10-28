@@ -239,7 +239,7 @@ async function getStorageURL(path, download = false) {
 
   const originalPath = String(path).replace(/^\/+/, "");
   const options = download
-  ? { download: "video" }
+  ? { download: typeof download === "string" ? download + ".mp4" : "video.mp4" }
   : {};
 
   // Primeiro tenta o caminho guardado na tabela.
