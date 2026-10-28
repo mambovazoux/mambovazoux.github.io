@@ -578,6 +578,46 @@ button:disabled{opacity:.5;cursor:wait}
     list.querySelectorAll("[data-delete]").forEach(button => {
       button.addEventListener("click", () => deleteVideo(button.dataset.delete));
     });
+    
+    list.querySelectorAll("[data-save-views]").forEach(button => {
+      button.addEventListener("click", async () => {
+        const id = button.dataset.saveViews;
+        const input = list.querySelector(`[data-views="${id}"]`);
+        const value = Number(input.value);
+
+        if (!Number.isSafeInteger(value) || value < 0) {
+          alert("Introduz um número inteiro igual ou superior a zero.");
+          return;
+        }
+
+        button.disabled = true;
+        button.textContent = "A GUARDAR...";
+
+        try {
+          const { data, error } = await client
+            .from("videos")
+            .update({ views: value })
+            .eq("id", id)
+            .select("id");
+
+          if (error) throw error;
+          if (!data || data.length === 0) {
+            throw new Error("Sem permissão para alterar as views.");
+          }
+
+          const item = records.find(video => String(video.id) === String(id));
+          if (item) item.views = value;
+
+          button.textContent = "GUARDADO!";
+        } catch (error) {
+          alert("Erro ao guardar views: " + error.message);
+          button.textContent = "GUARDAR VIEWS";
+        } finally {
+          button.disabled = false;
+        }
+      });
+    });
+
   }
 
   function editVideo(id) {
