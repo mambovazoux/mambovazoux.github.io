@@ -368,6 +368,7 @@ document.getElementById("commentForm").addEventListener("submit", async event =>
   const button = document.getElementById("commentSubmit");
 
   const name = nameInput.value.trim();
+  localStorage.setItem("mv_comment_name", name);
   const comment = textInput.value.trim();
 
   if (!currentVideoId) {
