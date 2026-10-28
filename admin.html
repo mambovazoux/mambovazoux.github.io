@@ -143,6 +143,32 @@ button:disabled{opacity:.5;cursor:wait}
     </section>
   </section>
 </main>
+  
+    <section class="panel">
+      <h2>💬 Gestão de comentários</h2>
+
+      <label for="commentVideo">Escolher vídeo</label>
+      <select id="commentVideo">
+        <option value="">A carregar vídeos...</option>
+      </select>
+
+      <form id="adminCommentForm">
+        <label for="adminCommentName">Nome apresentado</label>
+        <input id="adminCommentName" maxlength="40"
+               placeholder="Administrador" required>
+
+        <label for="adminCommentText">Comentário</label>
+        <textarea id="adminCommentText" maxlength="1000"
+                  placeholder="Escreve o comentário..." required></textarea>
+
+        <button class="primary" id="adminCommentBtn" type="submit">
+          PUBLICAR COMENTÁRIO
+        </button>
+      </form>
+
+      <p class="status" id="adminCommentStatus"></p>
+      <div id="adminCommentsList"></div>
+    </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
