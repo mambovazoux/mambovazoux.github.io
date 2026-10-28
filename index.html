@@ -460,31 +460,10 @@ function playVideo(id) {
     .trim() || "video";
 
   downloadLink.href = video.downloadURL;
-  downloadLink.removeAttribute("download");
+  downloadLink.removeAttribute("target");
+  downloadLink.setAttribute("download", safeName + ".mp4");
   downloadLink.style.display = "inline-block";
-
-  downloadLink.onclick = async function (event) {
-    event.preventDefault();
-
-    try {
-      const response = await fetch(video.downloadURL);
-      if (!response.ok) throw new Error("Falha no download");
-
-      const blob = await response.blob();
-      const blobURL = URL.createObjectURL(blob);
-      const tempLink = document.createElement("a");
-
-      tempLink.href = blobURL;
-      tempLink.download = safeName + ".mp4";
-      document.body.appendChild(tempLink);
-      tempLink.click();
-      tempLink.remove();
-
-      setTimeout(() => URL.revokeObjectURL(blobURL), 60000);
-    } catch (error) {
-      alert("Não foi possível renomear o download. Verifica as permissões do Supabase.");
-    }
-  };
+  downloadLink.onclick = null;
 }
 
   modal.classList.add("open");
