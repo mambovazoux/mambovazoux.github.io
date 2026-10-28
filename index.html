@@ -296,7 +296,7 @@ async function loadVideos() {
       const [videoURL, coverURL, downloadURL] = await Promise.all([
         getStorageURL(videoPath),
         getStorageURL(coverPath),
-        getStorageURL(videoPath, true)
+        getStorageURL(videoPath, item.title || "video")
       ]);
 
       return {
