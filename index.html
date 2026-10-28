@@ -232,7 +232,37 @@ footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;p
       rel="noopener noreferrer"
       style="display:none;margin-top:12px">
       Descarregar vídeo
+    
     </a>
+
+    <section class="comments-panel">
+      <h3>💬 Comentários</h3>
+
+      <form id="commentForm" class="comment-form">
+        <input
+          id="commentName"
+          type="text"
+          maxlength="40"
+          placeholder="O teu nome"
+          required>
+
+        <textarea
+          id="commentText"
+          maxlength="1000"
+          placeholder="Escreve o teu comentário..."
+          required></textarea>
+
+        <button class="comment-submit" id="commentSubmit" type="submit">
+          PUBLICAR COMENTÁRIO
+        </button>
+
+        <p class="comment-status" id="commentStatus" aria-live="polite"></p>
+      </form>
+
+      <div id="commentsList">
+        <p class="comment-status">Abre um vídeo para ver os comentários.</p>
+      </div>
+    </section>
 
   </div>
 </div>
