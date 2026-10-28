@@ -186,6 +186,141 @@ button:disabled{opacity:.5;cursor:wait}
   let existingPath = null;
   let existingCover = null;
   let records = [];
+  
+  async function loadCommentVideoOptions() {
+    const select = $("commentVideo");
+    select.replaceChildren();
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Escolhe um vídeo";
+    select.appendChild(placeholder);
+
+    for (const video of records) {
+      const option = document.createElement("option");
+      option.value = video.id;
+      option.textContent = video.title || "Vídeo sem título";
+      select.appendChild(option);
+    }
+
+    if (select.value) await loadAdminComments();
+  }
+
+  async function loadAdminComments() {
+    const videoId = $("commentVideo").value;
+    const list = $("adminCommentsList");
+    list.replaceChildren();
+
+    if (!videoId) {
+      $("adminCommentStatus").textContent = "Escolhe um vídeo.";
+      return;
+    }
+
+    $("adminCommentStatus").textContent = "A carregar comentários...";
+
+    const { data, error } = await client
+      .from("comments")
+      .select("id,name,comment,created_at")
+      .eq("video_id", videoId)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      $("adminCommentStatus").textContent =
+        "Erro ao carregar: " + error.message;
+      return;
+    }
+
+    $("adminCommentStatus").textContent =
+      "Total de comentários: " + data.length;
+
+    if (!data.length) {
+      list.textContent = "Ainda não existem comentários.";
+      return;
+    }
+
+    for (const item of data) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.style.padding = "12px";
+      card.style.marginTop = "10px";
+
+      const author = document.createElement("strong");
+      author.textContent = item.name || "Visitante";
+
+      const comment = document.createElement("p");
+      comment.style.overflowWrap = "anywhere";
+      comment.textContent = item.comment || "";
+
+      const date = document.createElement("p");
+      date.className = "help";
+      date.textContent = item.created_at
+        ? new Date(item.created_at).toLocaleString("pt-PT")
+        : "";
+
+      const remove = document.createElement("button");
+      remove.className = "delete";
+      remove.textContent = "APAGAR COMENTÁRIO";
+
+      remove.addEventListener("click", async () => {
+        if (!confirm("Apagar este comentário?")) return;
+
+        const { error } = await client
+          .from("comments")
+          .delete()
+          .eq("id", item.id);
+
+        if (error) {
+          alert("Erro ao apagar: " + error.message);
+          return;
+        }
+
+        await loadAdminComments();
+      });
+
+      card.append(author, comment, date, remove);
+      list.appendChild(card);
+    }
+  }
+
+  $("commentVideo").addEventListener("change", loadAdminComments);
+
+  $("adminCommentForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const videoId = $("commentVideo").value;
+    const name = $("adminCommentName").value.trim();
+    const comment = $("adminCommentText").value.trim();
+    const button = $("adminCommentBtn");
+    const status = $("adminCommentStatus");
+
+    if (!videoId || !name || !comment) {
+      status.textContent = "Preenche todos os campos e escolhe um vídeo.";
+      return;
+    }
+
+    button.disabled = true;
+    status.textContent = "A publicar...";
+
+    try {
+      const { error } = await client.from("comments").insert({
+        video_id: videoId,
+        name,
+        comment,
+        author_name: name,
+        content: comment
+      });
+
+      if (error) throw error;
+
+      $("adminCommentText").value = "";
+      status.textContent = "Comentário publicado com sucesso!";
+      await loadAdminComments();
+    } catch (error) {
+      status.textContent = "Erro ao publicar: " + error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
 
   function message(text) {
     $("listStatus").textContent = text;
