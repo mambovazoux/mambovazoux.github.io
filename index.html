@@ -230,29 +230,44 @@ function isExternalURL(value) {
 }
 
 async function getStorageURL(path, download = false) {
-  if (!path) return "";
-
-  if (isExternalURL(path)) return path;
-
-  let cleanPath = String(path).replace(/^\/+/, "");
-
-  // Remove o prefixo "videos/" se já estiver incluído no caminho.
-  if (cleanPath.startsWith("videos/")) {
-    cleanPath = cleanPath.slice("videos/".length);
-  }
-
-  const options = download ? { download: true } : {};
-
-  const { data, error } = await db.storage
-    .from(BUCKET)
-    .createSignedUrl(cleanPath, 3600, options);
-
-  if (error) {
-    console.error("Erro ao gerar URL:", error.message, cleanPath);
+  if (!path) {
+    console.error("Caminho do ficheiro vazio.");
     return "";
   }
 
-  return data?.signedUrl || "";
+  if (isExternalURL(path)) return path;
+
+  const originalPath = String(path).replace(/^\/+/, "");
+  const options = download ? { download: true } : {};
+
+  // Primeiro tenta o caminho guardado na tabela.
+  let result = await db.storage
+    .from(BUCKET)
+    .createSignedUrl(originalPath, 3600, options);
+
+  // Se falhar, tenta sem o prefixo "videos/".
+  if (
+    result.error &&
+    originalPath.startsWith("videos/")
+  ) {
+    const alternativePath = originalPath.slice("videos/".length);
+
+    result = await db.storage
+      .from(BUCKET)
+      .createSignedUrl(alternativePath, 3600, options);
+  }
+
+  if (result.error) {
+    console.error(
+      "Erro ao gerar URL no Supabase:",
+      result.error.message,
+      "Caminho:",
+      originalPath
+    );
+    return "";
+  }
+
+  return result.data?.signedUrl || "";
 }
 
 async function loadVideos() {
