@@ -110,6 +110,33 @@ button:disabled{opacity:.5;cursor:wait}
       <p class="status" id="accountStatus">Sessão autenticada.</p>
       <button class="secondary" id="logoutBtn">TERMINAR SESSÃO</button>
     </section>
+    <section class="panel">
+  <h2>📊 Estatísticas do MAMBO VAZOUX</h2>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span>Visitas ao site</span>
+      <strong id="totalVisits">—</strong>
+    </div>
+
+    <div class="stat-card">
+      <span>Visualizações</span>
+      <strong id="totalViews">—</strong>
+    </div>
+
+    <div class="stat-card">
+      <span>Vídeos publicados</span>
+      <strong id="totalVideos">—</strong>
+    </div>
+  </div>
+
+  <h3>🔥 Vídeos mais vistos</h3>
+  <div id="topVideos" class="status">A carregar estatísticas...</div>
+
+  <button class="secondary" id="refreshStats" type="button">
+    ATUALIZAR ESTATÍSTICAS
+  </button>
+    </section>
 
     <section class="panel">
       <h2 id="formTitle">＋ Publicar vídeo</h2>
