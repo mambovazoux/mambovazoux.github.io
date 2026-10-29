@@ -281,7 +281,37 @@ const BUCKET = "mambo-videos";
 const VIDEOS_PER_PAGE = 6;
 
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Registar uma visita única por navegador, por dia
+async function registerSiteVisit() {
+  try {
+    let visitorId = localStorage.getItem("mambo_visitor_id");
 
+    if (!visitorId) {
+      visitorId = crypto.randomUUID();
+      localStorage.setItem("mambo_visitor_id", visitorId);
+    }
+
+    const today = new Date().toLocaleDateString("en-CA");
+    const lastVisit = localStorage.getItem("mambo_last_visit");
+
+    if (lastVisit === today) return;
+
+    const { error } = await db.rpc("register_site_visit", {
+      p_visitor_id: visitorId
+    });
+
+    if (error) {
+      console.error("Erro ao registar visita:", error.message);
+      return;
+    }
+
+    localStorage.setItem("mambo_last_visit", today);
+  } catch (error) {
+    console.error("Erro nas visitas:", error);
+  }
+}
+
+registerSiteVisit();
 const grid = document.getElementById("grid");
 const empty = document.getElementById("empty");
 const pagination = document.getElementById("pagination");
