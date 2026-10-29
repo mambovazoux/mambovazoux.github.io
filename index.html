@@ -703,6 +703,18 @@ function render() {
 function playVideo(id) {
   const video = videos.find(item => item.id === id);
   if (!video) return;
+  // Registar visualização ao abrir o vídeo
+db.rpc("increment_video_view", {
+  p_video_id: video.id
+}).then(({ error }) => {
+  if (error) {
+    console.error("Erro ao contar visualização:", error.message);
+    return;
+  }
+
+  video.views = (Number(video.views) || 0) + 1;
+  render();
+});
     currentVideoId = video.id;
   document.getElementById("commentStatus").textContent = "";
   document.getElementById("commentName").value =
