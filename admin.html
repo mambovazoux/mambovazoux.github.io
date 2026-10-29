@@ -6,6 +6,18 @@
 <meta name="theme-color" content="#080808">
 <title>Admin | MAMBO VAZOUX</title>
 .stats-grid {
+
+<style>
+:root {
+  --bg:#080808;
+  --panel:#121212;
+  --pink:#ff0750;
+  --text:#fff;
+  --muted:#999;
+  --border:#292929;
+}
+  
+  .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
@@ -41,15 +53,7 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-<style>
-:root {
-  --bg:#080808;
-  --panel:#121212;
-  --pink:#ff0750;
-  --text:#fff;
-  --muted:#999;
-  --border:#292929;
-}
+  
 *{box-sizing:border-box}
 body{
   margin:0;background:var(--bg);color:var(--text);
