@@ -559,6 +559,45 @@ button:disabled{opacity:.5;cursor:wait}
     }
   });
 
+  async function loadStats() {
+  const top = $("topVideos");
+
+  top.textContent = "A carregar estatísticas...";
+
+  const { data, error } = await client.rpc("get_site_stats");
+
+  if (error) {
+    top.textContent = "Erro ao carregar: " + error.message;
+    return;
+  }
+
+  $("totalVisits").textContent =
+    Number(data.visits || 0).toLocaleString("pt-PT");
+
+  $("totalViews").textContent =
+    Number(data.views || 0).toLocaleString("pt-PT");
+
+  $("totalVideos").textContent =
+    records.length.toLocaleString("pt-PT");
+
+  const best = data.top_videos || [];
+
+  if (!best.length) {
+    top.textContent = "Ainda não existem visualizações.";
+    return;
+  }
+
+  top.innerHTML = best.map((video, index) => `
+    <div>
+      ${index + 1}. ${escapeHTML(video.title)}
+      — <strong>${Number(video.views || 0).toLocaleString("pt-PT")}</strong>
+      visualizações
+    </div>
+  `).join("");
+}
+
+$("refreshStats").addEventListener("click", loadStats);
+ 
   async function loadVideos() {
     message("A carregar publicações...");
     const { data, error } = await client
@@ -572,10 +611,10 @@ button:disabled{opacity:.5;cursor:wait}
     }
 
         records = data || [];
-    renderVideos();
-    await loadCommentVideoOptions();
-    message("Total de publicações: " + records.length);
-  }
+renderVideos();
+await loadCommentVideoOptions();
+await loadStats();
+message("Total de publicações: " + records.length);
 
   async function getPreviewUrl(path) {
     if (!path) return "";
