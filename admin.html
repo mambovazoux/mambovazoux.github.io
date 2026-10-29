@@ -611,10 +611,11 @@ $("refreshStats").addEventListener("click", loadStats);
     }
 
         records = data || [];
-renderVideos();
+await renderVideos();
 await loadCommentVideoOptions();
 await loadStats();
 message("Total de publicações: " + records.length);
+  }
 
   async function getPreviewUrl(path) {
     if (!path) return "";
