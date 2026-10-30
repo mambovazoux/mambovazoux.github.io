@@ -419,14 +419,16 @@ document.getElementById("commentForm").addEventListener("submit", async event =>
   const { error } = await db.from("comments").insert({
     video_id: currentVideoId,
     name,
-    comment
+    comment,
+    author_name: name,
+    content: comment
   });
 
   if (error) throw error;
 
-    textInput.value = "";
-status.textContent = "Comentário publicado!";
-await loadComments(currentVideoId);
+  textInput.value = "";
+  status.textContent = "Comentário publicado!";
+  await loadComments(currentVideoId);
 
 } catch (error) {
   console.error("Erro ao publicar comentário:", error);
