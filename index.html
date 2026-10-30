@@ -948,30 +948,22 @@ async function loadVideos() {
         const videoPath = item.storage_path || item.video_url || "";
         const coverPath = item.thumbnail_url || "";
 
-        let videoURL = "";
-        let coverURL = "";
-        let downloadURL = "";
+        const [videoURL, coverURL, downloadURL] = await Promise.all([
+  getStorageURL(videoPath).catch(e => {
+    console.warn("Erro no vídeo:", item.title, e);
+    return "";
+  }),
 
-        try {
-          videoURL = await getStorageURL(videoPath);
-        } catch (e) {
-          console.warn("Erro no vídeo:", item.title, e);
-        }
+  getStorageURL(coverPath).catch(e => {
+    console.warn("Erro na capa:", item.title, e);
+    return "";
+  }),
 
-        try {
-          coverURL = await getStorageURL(coverPath);
-        } catch (e) {
-          console.warn("Erro na capa:", item.title, e);
-        }
-
-        try {
-          downloadURL = await getStorageURL(
-            videoPath,
-            item.title || "video"
-          );
-        } catch (e) {
-          console.warn("Erro no download:", item.title, e);
-        }
+  getStorageURL(videoPath, item.title || "video").catch(e => {
+    console.warn("Erro no download:", item.title, e);
+    return "";
+  })
+]);
 
         return {
           id: String(item.id),
