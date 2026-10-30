@@ -416,15 +416,13 @@ document.getElementById("commentForm").addEventListener("submit", async event =>
   status.textContent = "A publicar...";
 
   try {
-    const { error } = await db.from("comments").insert({
-      video_id: currentVideoId,
-      name,
-      comment,
-      author_name: name,
-      content: comment
-    });
+  const { error } = await db.from("comments").insert({
+    video_id: currentVideoId,
+    name,
+    comment
+  });
 
-    if (error) throw error;
+  if (error) throw error;
 
     textInput.value = "";
     status.textContent = "Comentário publicado!";
