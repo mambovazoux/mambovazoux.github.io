@@ -367,15 +367,13 @@ button:disabled{opacity:.5;cursor:wait}
     status.textContent = "A publicar...";
 
     try {
-      const { error } = await client.from("comments").insert({
-        video_id: videoId,
-        name,
-        comment,
-        author_name: name,
-        content: comment
-      });
+  const { error } = await client.from("comments").insert({
+    video_id: videoId,
+    name,
+    comment
+  });
 
-      if (error) throw error;
+  if (error) throw error;
 
       $("adminCommentText").value = "";
       status.textContent = "Comentário publicado com sucesso!";
