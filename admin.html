@@ -368,10 +368,12 @@ button:disabled{opacity:.5;cursor:wait}
 
     try {
   const { error } = await client.from("comments").insert({
-    video_id: videoId,
-    name,
-    comment
-  });
+  video_id: videoId,
+  name,
+  comment,
+  author_name: name,
+  content: comment
+});
 
   if (error) throw error;
 
