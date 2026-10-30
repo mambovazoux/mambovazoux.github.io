@@ -425,15 +425,17 @@ document.getElementById("commentForm").addEventListener("submit", async event =>
   if (error) throw error;
 
     textInput.value = "";
-    status.textContent = "Comentário publicado!";
-    await loadComments(currentVideoId);
-  } catch (error) {
-    console.error("Erro ao publicar comentário:", error);
-    status.textContent =
-      "Não foi possível publicar. Confirma a ligação e as permissões do Supabase.";
-  } finally {
-    button.disabled = false;
-  }
+status.textContent = "Comentário publicado!";
+await loadComments(currentVideoId);
+
+} catch (error) {
+  console.error("Erro ao publicar comentário:", error);
+  status.textContent = "Erro: " + error.message;
+  alert("Erro do Supabase: " + error.message);
+
+} finally {
+  button.disabled = false;
+}
 });
 
 let currentPage = 1;
