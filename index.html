@@ -136,6 +136,420 @@ footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;p
   white-space: pre-wrap;
 }
 
+  /* ===== NOVO VISUAL MAMBO VAZOUX ===== */
+
+:root {
+  --bg: #09090c;
+  --panel: #141419;
+  --panel2: #1d1d24;
+  --accent: #ff2457;
+  --text: #fafafa;
+  --muted: #a1a1ad;
+  --border: #292932;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% -15%, rgba(255,36,87,.10), transparent 42%),
+    var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topbar {
+  background: rgba(10,10,13,.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.header-inner {
+  padding-top: 17px;
+  padding-bottom: 17px;
+}
+
+.logo {
+  font-size: 25px;
+  letter-spacing: -1.3px;
+  text-shadow: 0 0 22px rgba(255,36,87,.18);
+}
+
+.header-search input {
+  background: #19191f;
+  border: 1px solid #303039;
+  border-radius: 30px;
+  padding: 13px 18px;
+  transition: .2s;
+}
+
+.header-search input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,36,87,.12);
+}
+
+nav {
+  gap: 25px;
+}
+
+nav a {
+  padding: 5px 0;
+  transition: .2s;
+}
+
+nav a:hover {
+  color: white;
+}
+
+.age {
+  background: rgba(255,36,87,.09);
+}
+
+main {
+  padding-top: 25px;
+  padding-bottom: 45px;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 185px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 90% 20%, rgba(255,36,87,.24), transparent 35%),
+    linear-gradient(115deg,#251019,#15151c 65%,#101014);
+  border: 1px solid rgba(255,36,87,.22);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.18);
+}
+
+.hero-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  font-size: clamp(27px,5vw,39px);
+  letter-spacing: -1px;
+  margin: 12px 0 8px;
+}
+
+.hero p {
+  max-width: 520px;
+  font-size: 14px;
+}
+
+.section-heading {
+  margin-top: 32px;
+}
+
+.section-heading h2 {
+  font-size: 20px;
+  letter-spacing: -.4px;
+}
+
+.filters {
+  gap: 9px;
+  margin-bottom: 20px;
+}
+
+.filter {
+  border-radius: 30px;
+  padding: 10px 17px;
+  transition: .2s;
+}
+
+.filter:not(.active):hover {
+  border-color: #555560;
+  color: white;
+}
+
+.filter.active {
+  box-shadow: 0 5px 18px rgba(255,36,87,.20);
+}
+
+.grid {
+  gap: 18px;
+}
+
+.card {
+  border-radius: 12px;
+  background: linear-gradient(145deg,#18181e,#111115);
+  border: 1px solid rgba(255,255,255,.07);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,36,87,.45);
+  box-shadow: 0 12px 28px rgba(0,0,0,.28);
+}
+
+.thumb-wrap {
+  aspect-ratio: 16/10;
+  background: #202027;
+}
+
+.thumb {
+  transition: transform .35s ease;
+}
+
+.card:hover .thumb {
+  transform: scale(1.035);
+}
+
+.duration {
+  background: rgba(0,0,0,.85);
+  border: 1px solid rgba(255,255,255,.13);
+}
+
+.card-body {
+  padding: 13px;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 39px;
+}
+
+.card-meta {
+  color: #a4a4af;
+}
+
+.card-actions {
+  gap: 9px;
+}
+
+.watch,
+.favorite {
+  border-radius: 8px;
+  min-height: 40px;
+  transition: .2s;
+}
+
+.watch {
+  background: linear-gradient(110deg,#ff2457,#d91548);
+  box-shadow: 0 4px 13px rgba(255,36,87,.14);
+}
+
+.watch:hover {
+  filter: brightness(1.12);
+}
+
+.favorite {
+  border: 1px solid #363640;
+}
+
+.favorite:hover,
+.favorite.saved {
+  background: rgba(255,36,87,.13);
+  border-color: rgba(255,36,87,.4);
+  color: #ff668b;
+}
+
+.pagination {
+  gap: 8px;
+  margin: 35px 0;
+}
+
+.page-btn {
+  min-width: 40px;
+  border-radius: 8px;
+  transition: .2s;
+}
+
+.page-btn:hover {
+  border-color: var(--accent);
+}
+
+.page-btn.active {
+  box-shadow: 0 4px 14px rgba(255,36,87,.2);
+}
+
+.player-modal {
+  padding: 12px;
+  overflow-y: auto;
+  align-items: flex-start;
+}
+
+.player-box {
+  margin: auto;
+  width: min(900px,100%);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  border: 1px solid #363640;
+  border-radius: 15px;
+  background: #111115;
+  box-shadow: 0 20px 70px rgba(0,0,0,.6);
+}
+
+.player-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #15151b;
+  border-bottom: 1px solid #292930;
+  padding: 14px 16px;
+}
+
+.player-header h2 {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.close-player {
+  background: #292930;
+  border: 1px solid #41414b;
+}
+
+.close-player:hover {
+  background: #3a3a45;
+}
+
+.comments-panel {
+  max-height: none;
+  padding: 18px;
+  background: #111115;
+}
+
+.comments-panel h3 {
+  font-size: 18px;
+}
+
+.comment-form input,
+.comment-form textarea {
+  background: #1b1b22;
+  border-color: #35353f;
+  border-radius: 10px;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.comment-submit {
+  border-radius: 9px;
+  background: linear-gradient(110deg,#ff2457,#d91548);
+  transition: .2s;
+}
+
+.comment-submit:hover {
+  filter: brightness(1.1);
+}
+
+.comment-submit:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.comment-item {
+  padding: 15px 0;
+}
+
+.comment-author {
+  color: #fff;
+}
+
+footer {
+  background: #0d0d11;
+  border-top: 1px solid #292930;
+}
+
+/* ===== EXPERIÊNCIA EM TELEMÓVEIS ===== */
+
+@media(max-width:600px) {
+  .header-inner {
+    gap: 12px;
+    padding: 13px;
+  }
+
+  .logo {
+    font-size: 21px;
+  }
+
+  nav {
+    gap: 21px;
+    padding-bottom: 13px;
+  }
+
+  main {
+    padding: 17px 12px 35px;
+  }
+
+  .hero {
+    min-height: 165px;
+    padding: 21px;
+    border-radius: 13px;
+  }
+
+  .hero h1 {
+    font-size: 27px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .grid {
+    gap: 11px;
+  }
+
+  .card {
+    border-radius: 10px;
+  }
+
+  .thumb-wrap {
+    aspect-ratio: 4/3;
+  }
+
+  .card-body {
+    padding: 9px;
+  }
+
+  .card-title {
+    font-size: 12px;
+    min-height: 35px;
+  }
+
+  .card-meta {
+    margin-bottom: 10px;
+  }
+
+  .watch,
+  .favorite {
+    min-height: 38px;
+    padding: 8px 5px;
+  }
+
+  .player-modal {
+    padding: 6px;
+  }
+
+  .player-box {
+    border-radius: 11px;
+    max-height: calc(100dvh - 12px);
+  }
+
+  .comments-panel {
+    padding: 13px;
+  }
+
+  .comment-form input,
+  .comment-form textarea {
+    font-size: 14px;
+  }
+}
+
+@media(min-width:1000px) {
+  .grid {
+    grid-template-columns: repeat(4,minmax(0,1fr));
+  }
+}
+
 </style>
 </head>
 <body>
